@@ -1,15 +1,15 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include"resource.h"
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	//hInstance - Экземпляр запущенного *.exe-файла нашей программы
-	//hPrevInst - не используется
+	//hInstance - Р­РєР·РµРјРїР»СЏСЂ Р·Р°РїСѓС‰РµРЅРЅРѕРіРѕ *.exe-С„Р°Р№Р»Р° РЅР°С€РµР№ РїСЂРѕРіСЂР°РјРјС‹
+	//hPrevInst - РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
 	//LPSTR - LongPointer To String
-	//lpCmdLine - CommandLine (командная строка с параметрами запуска приложения) 
-	//nCmdShow - режим отображения окна (развернуто на весь экран, cвернуто на панель задач)
+	//lpCmdLine - CommandLine (РєРѕРјР°РЅРґРЅР°СЏ СЃС‚СЂРѕРєР° СЃ РїР°СЂР°РјРµС‚СЂР°РјРё Р·Р°РїСѓСЃРєР° РїСЂРёР»РѕР¶РµРЅРёСЏ) 
+	//nCmdShow - СЂРµР¶РёРј РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РѕРєРЅР° (СЂР°Р·РІРµСЂРЅСѓС‚Рѕ РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ, cРІРµСЂРЅСѓС‚Рѕ РЅР° РїР°РЅРµР»СЊ Р·Р°РґР°С‡)
 	//           n - Number
 	//          lp - Long Pointer
 	//           h - HINSTANCE
@@ -23,40 +23,40 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 	BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		//hwnd - Handler to Window. Обработчик или дескриптор окна - это число при помощи которого можно обратиться к окну.
-		//uNsg - Message. Сообшение, кторое отправляется окну
-		//wParam, lParam - это параметры сообщения, у каждого сообщения свои набор парамтеров.
+		//hwnd - Handler to Window. РћР±СЂР°Р±РѕС‚С‡РёРє РёР»Рё РґРµСЃРєСЂРёРїС‚РѕСЂ РѕРєРЅР° - СЌС‚Рѕ С‡РёСЃР»Рѕ РїСЂРё РїРѕРјРѕС‰Рё РєРѕС‚РѕСЂРѕРіРѕ РјРѕР¶РЅРѕ РѕР±СЂР°С‚РёС‚СЊСЃСЏ Рє РѕРєРЅСѓ.
+		//uNsg - Message. РЎРѕРѕР±С€РµРЅРёРµ, РєС‚РѕСЂРѕРµ РѕС‚РїСЂР°РІР»СЏРµС‚СЃСЏ РѕРєРЅСѓ
+		//wParam, lParam - СЌС‚Рѕ РїР°СЂР°РјРµС‚СЂС‹ СЃРѕРѕР±С‰РµРЅРёСЏ, Сѓ РєР°Р¶РґРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ СЃРІРѕРё РЅР°Р±РѕСЂ РїР°СЂР°РјС‚РµСЂРѕРІ.
 		switch (uMsg)
 		{
-		case WM_INITDIALOG:  // сообщение отправляется  раз при инициализации окна.
+		case WM_INITDIALOG:  // СЃРѕРѕР±С‰РµРЅРёРµ РѕС‚РїСЂР°РІР»СЏРµС‚СЃСЏ  СЂР°Р· РїСЂРё РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕРєРЅР°.
 			break;
-		case WM_COMMAND:   // обрабатывает нажатие кнопок и друг действия пользователя
+		case WM_COMMAND:   // РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРѕРє Рё РґСЂСѓРі РґРµР№СЃС‚РІРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 			switch (LOWORD(wParam))
 			{
 			case IDC_BUTTON_COPY:
 			{
-				// 1) Создаем буфер
+				// 1) РЎРѕР·РґР°РµРј Р±СѓС„РµСЂ
 				CONST INT SIZE = 256;
 				CHAR sz_buffer[SIZE] = {}; //sz - String Zero (NULL terminated Line - C-string)
 
-				// 2) Получаем обработчик текстовых полей:
+				// 2) РџРѕР»СѓС‡Р°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРє С‚РµРєСЃС‚РѕРІС‹С… РїРѕР»РµР№:
 				HWND heditLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
 				HWND heditPassword = GetDlgItem(hwnd, IDC_EDIT_PASSWORD);
 				
-				// 3) Считываем содержимое поля 'Login' в буфер:
+				// 3) РЎС‡РёС‚С‹РІР°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµ РїРѕР»СЏ 'Login' РІ Р±СѓС„РµСЂ:
 				SendMessage(heditLogin, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 
-				// 4) Записываем полученный текст в текстовое поле 'Password':
+				// 4) Р—Р°РїРёСЃС‹РІР°РµРј РїРѕР»СѓС‡РµРЅРЅС‹Р№ С‚РµРєСЃС‚ РІ С‚РµРєСЃС‚РѕРІРѕРµ РїРѕР»Рµ 'Password':
 				SendMessage(heditPassword, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 
 			}
 			break;
-			case IDOK:MessageBox(hwnd, "Была нажата кнопка ОК", "Info", MB_OK | MB_ICONINFORMATION);
+			case IDOK:MessageBox(hwnd, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° РћРљ", "Info", MB_OK | MB_ICONINFORMATION);
 				break;
 			case IDCANCEL: EndDialog(hwnd, 0); break;
 			}
 			break;
-		case WM_CLOSE:   // отправляет при нажатии кнопки закрыть, ЗАКРЫТЬ, "X"
+		case WM_CLOSE:   // РѕС‚РїСЂР°РІР»СЏРµС‚ РїСЂРё РЅР°Р¶Р°С‚РёРё РєРЅРѕРїРєРё Р·Р°РєСЂС‹С‚СЊ, Р—РђРљР Р«РўР¬, "X"
 			EndDialog(hwnd, 0); 
 			break;
 		}
