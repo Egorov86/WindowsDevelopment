@@ -1,6 +1,7 @@
 ﻿#include<Windows.h>
 #include"resource.h"
 #include<CommCtrl.h>
+CONST CHAR g_sz_LOGIN_INVITATION[] = "Введите имя пользователя";
 //#define UNICODE
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -31,12 +32,17 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_INITDIALOG:  // сообщение отправляется  раз при инициализации окна.
     {
+        HWND hedit = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
+        SendMessage(hEdit, WM_SETTEXT, 0, g_sz_LOGIN_INVITATION);
+    }
+        break;
+    {
 
         /*// плейсхолдер для поля 'Login'
         HWND heditLogin = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
         SendMessage(heditLogin, EM_SETCUEBANNER, 0, (LPARAM)TEXT("Введите имя пользователя"));*/
     }
-    return TRUE;
+    //return TRUE;
         /*// Создаем буфер
         CONST INT SIZE = 256;
         CHAR sz_buffer[SIZE] = "Введите имя пользователя";
@@ -52,6 +58,22 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:   // обрабатывает нажатие кнопок и друг действия пользователя
         switch (LOWORD(wParam))
         {
+            case IDC_EDIT_LOGIN
+            CONST INT SIZE = 256;
+            CHAR sz_buffer[SIZE]{};
+            SendMessage((HWND)lParam, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+            if (HIWORD(wParam) == EN_SETFOCUS)
+            {
+                if(strcmp(sz_buffer, g_sz_LOGIN_INVITATION) ==0)
+                    SendMessage((HWND)lParam, WM_SETTEXT, 0, (LPARAM)"");
+            }
+            if (HIWORD(wParam) == EN_KILLFOCUS)
+            {
+                if (strcmp(sz_buffer, "") == 0)
+                    SendMessage((HWND)lParam, WM_SETTEXT, 0, (LPARAM)g_sz_LOGIN_INVITATION);
+            }
+            break;
+        
         case IDC_BUTTON_COPY:
         {
             // 1) Создаем буфер
