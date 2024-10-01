@@ -2,6 +2,7 @@
 #include"resource.h"
 #include<CommCtrl.h>
 
+
 CONST CHAR g_sz_LOGIN_INVITATION[] = "Введите имя пользователя";
 
 //Процедура окна:
