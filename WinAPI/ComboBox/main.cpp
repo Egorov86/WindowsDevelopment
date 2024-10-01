@@ -19,7 +19,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
 			SendMessage(hwnd, WM_SETICON, 0, (LPARAM)hIcon);
-			HWND hCombo = GetDlgItem(hwnd, IDC_COMBO1);
+			HWND hCombo = GetDlgItem(hwnd, IDC_COMBO1);  // получили hwnd дочернего элемента окна
 			for (int i = 0; i < sizeof(g_COMBO_BOX_ITEMS) / sizeof(g_COMBO_BOX_ITEMS[0]); i++)
 			{
 				SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)g_COMBO_BOX_ITEMS[i]);
