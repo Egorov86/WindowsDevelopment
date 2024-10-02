@@ -31,19 +31,26 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_COMMAND:
 		//HWND hCombo = GetDlgItem(hwnd, IDC_COMBO1);
-		if ((LPARAM)g_COMBO_BOX_ITEMS == 1 && wParam == IDOK)
+		if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_COMBO1)
 		{
-			MessageBox(hwnd, "Вы выбрали пункт №1", "Info", MB_OK | MB_ICONINFORMATION);
+			int iCurSel = SendMessageA((HWND)lParam, CB_GETCURSEL, 0, 0);
+			CHAR szText[100] = { 0 };
+			SendMessageA((HWND)lParam, CB_GETLBTEXT, iCurSel, (LPARAM)szText);
+			MessageBox(hwnd, szText, TEXT("Вы выбрали:", ), MB_OK);
 		}
+		/*if ((LPARAM)g_COMBO_BOX_ITEMS == 1 && wParam == IDOK)
+		{
+			MessageBox(hwnd, "Вы выбрали:", "Info", MB_OK | MB_ICONINFORMATION);
+		}*/
 		/*for (int i = 0; i < sizeof(g_COMBO_BOX_ITEMS) / sizeof(g_COMBO_BOX_ITEMS[0]); i++)
 		{
 			int count = 0; count++;
 			SendMessage(hwnd, CB_ADDSTRING, 0, (LPARAM)g_COMBO_BOX_ITEMS[i]);
 		}
-		SendMessage(hwnd, "Вы выбрали пункт №1", "Info", MB_OK | MB_ICONINFORMATION);*/
+		SendMessage(hwnd, "Вы выбрали:", "Info", MB_OK | MB_ICONINFORMATION);*/
 		/*if (wParam == 1)
 		{
-			MessageBox(hwnd, "Вы выбрали пункт №1", "Info", MB_OK | MB_ICONINFORMATION); break;
+			MessageBox(hwnd, "Вы выбрали:", "Info", MB_OK | MB_ICONINFORMATION); break;
 		}*/
 		break;
 	case IDCANCEL:
