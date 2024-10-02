@@ -1,5 +1,7 @@
 //ComboBox
+#define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
+#include<cstdio>
 #include"resource.h"
 
 CONST CHAR* g_COMBO_BOX_ITEMS[] = { "This", "is", "my", "First", "Combo", "Box" };
@@ -31,13 +33,36 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_COMMAND:
 		//HWND hCombo = GetDlgItem(hwnd, IDC_COMBO1);
-		if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_COMBO1)
+		switch (LOWORD(wParam))
 		{
-			int iCurSel = SendMessageA((HWND)lParam, CB_GETCURSEL, 0, 0);
-			CHAR szText[100] = { 0 };
-			SendMessageA((HWND)lParam, CB_GETLBTEXT, iCurSel, (LPARAM)szText);
-			MessageBox(hwnd, szText, TEXT("Вы выбрали:", ), MB_OK);
+		case IDOK:
+		{
+			HWND hCombo = GetDlgItem(hwnd, IDC_COMBO1);
+			INT i = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE]{};
+			SendMessage(hCombo, CB_GETLBTEXT, i, (LPARAM)sz_buffer);
+			MessageBox(hwnd, sz_buffer, "Info", MB_OK | MB_ICONEXCLAMATION);
+			CHAR sz_message[SIZE]{};
+			sprintf(sz_message, "Вы выбрали пункт №%i со значением \"%s\".", i, sz_buffer); // спецификаторы, выполняет форматирование строк, то есть позволяет вставить в строку переменные значения.
+				// %i - целое число
+				// %s - строка
+			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONEXCLAMATION);
 		}
+			break;
+		case IDCANCEL:
+			EndDialog(hwnd, 0);
+		}
+
+		/*if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_COMBO1)
+		{
+			int iCurSel = SendMessageA((HWND)lParam, CB_GETCURSEL, 0, 0);                // опеределяю текущий выбор
+			CHAR szText[100] = {};                   
+			SendMessageA((HWND)lParam, CB_GETLBTEXT, iCurSel, (LPARAM)szText);
+			MessageBox(hwnd, szText, TEXT("Вы выбрали пункт:", ), MB_OK | MB_ICONINFORMATION);   //Вывожу сообщение о выборе
+		}
+
+		*/
 		/*if ((LPARAM)g_COMBO_BOX_ITEMS == 1 && wParam == IDOK)
 		{
 			MessageBox(hwnd, "Вы выбрали:", "Info", MB_OK | MB_ICONINFORMATION);
@@ -53,13 +78,8 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MessageBox(hwnd, "Вы выбрали:", "Info", MB_OK | MB_ICONINFORMATION); break;
 		}*/
 		break;
-	case IDCANCEL:
-	{
-		EndDialog(hwnd, 0);
-	}
-		break;
-	case WM_CLOSE:
-		EndDialog(hwnd, 0);
+	    case IDCANCEL:	EndDialog(hwnd, 0); break;
+	case WM_CLOSE:  EndDialog(hwnd, 0);
 	}
 	return FALSE;
 }

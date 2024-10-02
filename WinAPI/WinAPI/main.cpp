@@ -106,7 +106,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDCANCEL:	EndDialog(hwnd, 0); break;
 		}
 		break;
-	case WM_CLOSE:		//Отправляется при нажатии кнопки 'Закрыть' X
+	    case WM_CLOSE:		//Отправляется при нажатии кнопки 'Закрыть' X
 		EndDialog(hwnd, 0);
 		break;
 	}
