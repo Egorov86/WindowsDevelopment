@@ -1,12 +1,10 @@
 ﻿#include<Windows.h>
 #include"resource.h"
-#include<CommCtrl.h>
 
+CONST CHAR* g_LIST_BOX_ITEMS[] = { "This", "is", "my", "first", "List", "Box", };
 
-CONST CHAR g_sz_LOGIN_INVITATION[] = "Введите имя пользователя";
-
-//Процедура окна:
-BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+        //Процедура окна:   окно сообщение и параметры сообщения
+BOOL CALLBACK DlgProcLB(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
@@ -31,13 +29,13 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MB_RIGHT
 	);*/
 
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)DlgProc, 0);
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)DlgProcLB, 0);
 
 	return 0;
 }
 
 //Процедура окна:
-BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK DlgProcLB(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	//hwnd - Handler to Window. Обработчик или дескриптор окна - это число, при помощи которого можно обратиться к окну.
 	//uMsg - Message. Сообщение, которое отправляется окну.
@@ -49,14 +47,20 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:	//Это сообшение отправляется 1 раз при инициализации окна
-	{
+		HWND hCombo = GetDlgItem(hwnd, IDC_LIST1);
+		for (int i = 0; i < sizeof(g_LIST_BOX_ITEMS) / sizeof(g_LIST_BOX_ITEMS[0]); i++)
+		{
+			SendMessage(hCombo, LB_ADDSTRING, 0, (LPARAM)g_LIST_BOX_ITEMS[i]);
+		}
+		//SendMessage(hCombo, LB_SETCURSEL, 0, 0);
+	/* {
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_LOGIN);
 		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)g_sz_LOGIN_INVITATION);
 	}
-	break;
+	break;*/
 	case WM_COMMAND:	//Обрабатывает нажатие кнопок и другие действия пользователя
 		//ResourceID
-		switch (LOWORD(wParam))
+		/*switch (LOWORD(wParam))
 		{
 		case IDC_EDIT_LOGIN:
 		{
@@ -70,19 +74,19 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			HIWORD(wParam) = NotificationCode(EN_SETFOCUS)
 			-----------------
 			*/
-			if (HIWORD(wParam) == EN_SETFOCUS && strcmp(sz_buffer, g_sz_LOGIN_INVITATION) == 0)
+			/*if (HIWORD(wParam) == EN_SETFOCUS && strcmp(sz_buffer, g_sz_LOGIN_INVITATION) == 0)
 				SendMessage((HWND)lParam, WM_SETTEXT, 0, (LPARAM)"");
 			if (HIWORD(wParam) == EN_KILLFOCUS && strcmp(sz_buffer, "") == 0)
 				SendMessage((HWND)lParam, WM_SETTEXT, 0, (LPARAM)g_sz_LOGIN_INVITATION);
 			//EN_ - Edit Notofocation
-			/*
+	
 			-----------------------------
-			Функция strcmp(const char* str1, const char* str2) сравнивает строки и возвращает значение типа 'int':
+			/*Функция strcmp(const char* str1, const char* str2) сравнивает строки и возвращает значение типа 'int':
 				0  - строки идентичны;
 				!0 - строки отличаются;
 			-----------------------------
 			//https://legacy.cplusplus.com/reference/cstring/strcmp/
-			*/
+			
 		}
 		break;
 		case IDC_BUTTON_COPY:
@@ -105,10 +109,17 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDOK:		MessageBox(hwnd, "Была нажата кнопка OK", "Info", MB_OK | MB_ICONINFORMATION); break;
 		case IDCANCEL:	EndDialog(hwnd, 0); break;
 		}
+		break;*/
+		switch(LOWORD(wParam))
+		{
+		case IDOK: break;
+		case IDCANCEL: EndDialog(hwnd, 0);
+		
+		}
 		break;
 	    case WM_CLOSE:		//Отправляется при нажатии кнопки 'Закрыть' X
 		EndDialog(hwnd, 0);
-		break;
+		//break;
 	}
 	return FALSE;
 }

@@ -3,8 +3,7 @@
 // Used by ListBox.rc
 //
 #define IDD_DIALOG1                     101
-#define IDI_ICON2                       103
-#define IDI_ICON1                       103
+#define IDI_ICON1                       102
 #define IDC_LIST1                       1001
 
 // Next default values for new objects
