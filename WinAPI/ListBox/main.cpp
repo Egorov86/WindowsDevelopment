@@ -60,15 +60,16 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-		case IDC_BUTTON_EDIT:  // удал€ю пункт из списка
+		case IDC_BUTTON_EDIT1:  // рекдатировать пункт из списка
 		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 			INT iSelectedItem = SendMessage(hList, LB_GETCURSEL, 0, 0);
 			if (iSelectedItem != LB_ERR)
 			{
-				SendMessage(hList, LB_DELETESTRING, iSelectedItem, 0);
+				DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD_ITEM), hwnd, DlgProcAdd, iSelectedItem); // дл€ по€влени€  окна редактировани€, позже вставлю окно и помен€ю IDD
 			}
 		}
+		break;
 		case IDOK:
 		{
 			//HWND hList1 = GetDlgItem(hwnd, IDC_LIST1);
