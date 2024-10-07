@@ -212,6 +212,7 @@ BOOL CALLBACK DlgProcChange(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			INT i =  SendMessage(hListBox, LB_GETCURSEL, 0, 0);
 			//SendMessage(hListBox, LB_SETITEMDATA, i, (LPARAM)sz_buffer);
+
 			if (SendMessage(hListBox, LB_FINDSTRING, -1, (LPARAM)sz_buffer) == LB_ERR)
 			{
 				SendMessage(hListBox, LB_DELETESTRING, i, 0);
