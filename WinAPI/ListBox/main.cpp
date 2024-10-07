@@ -1,4 +1,4 @@
-//ListBox
+п»ї//ListBox
 #include<Windows.h>
 #include<cstdio>
 #include"resource.h"
@@ -7,7 +7,7 @@
 CONST CHAR* g_LIST_BOX_ITEMS[] = { "This", "is", "my", "first", "List", "Box" };
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam); //подкл окна
+BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam); //РїРѕРґРєР» РѕРєРЅР°
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
@@ -34,12 +34,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		/*HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
 		SendMessage(hwnd, WM_SETICON, 0, (LPARAM)hIcon);*/
-		HWND hCombo = GetDlgItem(hwnd, IDC_LIST1); // получили элемент дочернего элемента окна 
+		HWND hCombo = GetDlgItem(hwnd, IDC_LIST1); // РїРѕР»СѓС‡РёР»Рё СЌР»РµРјРµРЅС‚ РґРѕС‡РµСЂРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° РѕРєРЅР° 
 		for (int i = 0; i < sizeof(g_LIST_BOX_ITEMS) / sizeof(g_LIST_BOX_ITEMS[0]); i++)
 		{
 			SendMessage(hCombo, LB_ADDSTRING, 0, (LPARAM)g_LIST_BOX_ITEMS[i]);
 		}
-		SendMessage(hCombo, LB_SETCURSEL, 0, 0); // для изначального выбьора в окне
+		SendMessage(hCombo, LB_SETCURSEL, 0, 0); // РґР»СЏ РёР·РЅР°С‡Р°Р»СЊРЅРѕРіРѕ РІС‹Р±СЊРѕСЂР° РІ РѕРєРЅРµ
 		
 	}
 	break;
@@ -47,10 +47,10 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         switch (LOWORD(wParam))
         {
 		case IDC_BUTTON_ADD:
-			//GetModuleHandle(NULL) - возвращает hInstance запущенной програмимы
-			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE (IDD_DIALOG_ADD_ITEM), hwnd, DlgProcAdd, 0); // для появления второго окна
+			//GetModuleHandle(NULL) - РІРѕР·РІСЂР°С‰Р°РµС‚ hInstance Р·Р°РїСѓС‰РµРЅРЅРѕР№ РїСЂРѕРіСЂР°РјРёРјС‹
+			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE (IDD_DIALOG_ADD_ITEM), hwnd, DlgProcAdd, 0); // РґР»СЏ РїРѕСЏРІР»РµРЅРёСЏ РІС‚РѕСЂРѕРіРѕ РѕРєРЅР°
 				break;
-		case IDC_BUTTON_DELETE:  // удаляю пункт из списка
+		case IDC_BUTTON_DELETE:  // СѓРґР°Р»СЏСЋ РїСѓРЅРєС‚ РёР· СЃРїРёСЃРєР°
 		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 			INT iSelectedItem = SendMessage(hList, LB_GETCURSEL, 0, 0);
@@ -60,14 +60,18 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-		case IDC_BUTTON_EDIT1:  // рекдатировать пункт из списка
+		case IDC_BUTTON_EDIT1:  // СЂРµРєРґР°С‚РёСЂРѕРІР°С‚СЊ РїСѓРЅРєС‚ РёР· СЃРїРёСЃРєР° 
 		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 			INT iSelectedItem = SendMessage(hList, LB_GETCURSEL, 0, 0);
 			if (iSelectedItem != LB_ERR)
 			{
-				DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD_ITEM), hwnd, DlgProcAdd, iSelectedItem); // для появления  окна редактирования, позже вставлю окно и поменяю IDD
+				DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD_ITEM), hwnd, DlgProcAdd, iSelectedItem); // РґР»СЏ РїРѕСЏРІР»РµРЅРёСЏ  РѕРєРЅР° СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ, РїРѕР·Р¶Рµ РІСЃС‚Р°РІР»СЋ РѕРєРЅРѕ Рё РїРѕРјРµРЅСЏСЋ IDD
 			}
+			/*if (iSelectedItem != LB_ERR)
+			{
+				SendMessage(hList, CBN_EDITCHANGE, iSelectedItem, 0);
+			}*/
 		}
 		break;
 		case IDOK:
@@ -75,24 +79,24 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//HWND hList1 = GetDlgItem(hwnd, IDC_LIST1);
 			CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE]{};
-			CHAR sz_message[SIZE] = "Вы ничего не выбрали.";
+			CHAR sz_message[SIZE] = "Р’С‹ РЅРёС‡РµРіРѕ РЅРµ РІС‹Р±СЂР°Р»Рё.";
 			HWND hCombo = GetDlgItem(hwnd, IDC_LIST1);
 			INT i = SendMessage(hCombo, LB_GETCURSEL, 0, 0);
 			SendMessage(hCombo, LB_GETTEXT, i, (LPARAM)sz_buffer);
 
 			if (i != LB_ERR)
-				sprintf(sz_message, "Вы выбрали элемент №%i со значением %s.", i, sz_buffer);
+				sprintf(sz_message, "Р’С‹ РІС‹Р±СЂР°Р»Рё СЌР»РµРјРµРЅС‚ в„–%i СЃРѕ Р·РЅР°С‡РµРЅРёРµРј %s.", i, sz_buffer);
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 
 			/*CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE]{};
-			CHAR sz_message[SIZE] = "Вы ничего не выбрали.";
+			CHAR sz_message[SIZE] = "Р’С‹ РЅРёС‡РµРіРѕ РЅРµ РІС‹Р±СЂР°Р»Рё.";
 			HWND hCombo = GetDlgItem(hwnd, IDC_LIST1);
 			INT i = SendMessage(hCombo, LB_GETCURSEL, 0, 0);
 			SendMessage(hCombo, LB_GETTEXT, i, (LPARAM)sz_buffer);
 
 			if (i != LB_ERR)
-				sprintf(sz_message, "Вы выбрали элемент №%i со значением %s.", i, sz_buffer);
+				sprintf(sz_message, "Р’С‹ РІС‹Р±СЂР°Р»Рё СЌР»РµРјРµРЅС‚ в„–%i СЃРѕ Р·РЅР°С‡РµРЅРёРµРј %s.", i, sz_buffer);
 
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);*/
 
@@ -103,14 +107,14 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hCombo, CB_GETLBTEXT, i, (LPARAM)sz_buffer);
 			MessageBox(hwnd, sz_buffer, "Info", MB_OK | MB_ICONINFORMATION);
 			CHAR sz_message[SIZE]{};
-			wsprintf(sz_message, "Вы выбрали пункт №%i со значением \"%s\".", i, sz_buffer);*/
-			/*sprintf(sz_message, "Вы выбрали пункт №%i со значением \"%s\".", i, sz_buffer); // спецификаторы, выполняет форматирование строк, то есть позволяет вставить в строку переменные значения.
-			// %i - целое число
-			// %s - строка
+			wsprintf(sz_message, "Р’С‹ РІС‹Р±СЂР°Р»Рё РїСѓРЅРєС‚ в„–%i СЃРѕ Р·РЅР°С‡РµРЅРёРµРј \"%s\".", i, sz_buffer);*/
+			/*sprintf(sz_message, "Р’С‹ РІС‹Р±СЂР°Р»Рё РїСѓРЅРєС‚ в„–%i СЃРѕ Р·РЅР°С‡РµРЅРёРµРј \"%s\".", i, sz_buffer); // СЃРїРµС†РёС„РёРєР°С‚РѕСЂС‹, РІС‹РїРѕР»РЅСЏРµС‚ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ СЃС‚СЂРѕРє, С‚Рѕ РµСЃС‚СЊ РїРѕР·РІРѕР»СЏРµС‚ РІСЃС‚Р°РІРёС‚СЊ РІ СЃС‚СЂРѕРєСѓ РїРµСЂРµРјРµРЅРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ.
+			// %i - С†РµР»РѕРµ С‡РёСЃР»Рѕ
+			// %s - СЃС‚СЂРѕРєР°
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);*/
 		}
 		break;
-	case IDCANCEL:	MessageBox(hwnd, "Была нажата кнопка OТМЕНА", "Info", MB_OK | MB_ICONINFORMATION); EndDialog(hwnd, 0);
+	case IDCANCEL:	MessageBox(hwnd, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° OРўРњР•РќРђ", "Info", MB_OK | MB_ICONINFORMATION); EndDialog(hwnd, 0);
 		}
 		break;
 	    case WM_CLOSE:
@@ -131,22 +135,22 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE]{};
-			GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), sz_buffer, SIZE); // (нужна для того чтобы проверить текст на пустоту)
-			if (sz_buffer[0] != '\0') //если текс не равен детерминирующему нулю, то проверяю только на совпадение
+			GetWindowText(GetDlgItem(hwnd, IDC_EDIT_NAME), sz_buffer, SIZE); // (РЅСѓР¶РЅР° РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ С‚РµРєСЃС‚ РЅР° РїСѓСЃС‚РѕС‚Сѓ)
+			if (sz_buffer[0] != '\0') //РµСЃР»Рё С‚РµРєСЃ РЅРµ СЂР°РІРµРЅ РґРµС‚РµСЂРјРёРЅРёСЂСѓСЋС‰РµРјСѓ РЅСѓР»СЋ, С‚Рѕ РїСЂРѕРІРµСЂСЏСЋ С‚РѕР»СЊРєРѕ РЅР° СЃРѕРІРїР°РґРµРЅРёРµ
 			{
 				HWND hParent = GetParent(hwnd);
 				HWND hListBox = GetDlgItem(hParent, IDC_LIST1);
 				if (SendMessage(hListBox, LB_FINDSTRING, -1, (LPARAM)sz_buffer) == LB_ERR)
 					SendMessage(hListBox, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
 				else
-					MessageBox(hwnd, "Такое вхождение уже существует ", "Info", MB_OK | MB_ICONINFORMATION);
+					MessageBox(hwnd, "РўР°РєРѕРµ РІС…РѕР¶РґРµРЅРёРµ СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ ", "Info", MB_OK | MB_ICONINFORMATION);
 			}
-			else   //если текс отсутсвует-> сообщ и выход.
-				MessageBox(hwnd, "Вы ничего не ввели ", "Info", MB_OK | MB_ICONHAND);
+			else   //РµСЃР»Рё С‚РµРєСЃ РѕС‚СЃСѓС‚СЃРІСѓРµС‚-> СЃРѕРѕР±С‰ Рё РІС‹С…РѕРґ.
+				MessageBox(hwnd, "Р’С‹ РЅРёС‡РµРіРѕ РЅРµ РІРІРµР»Рё ", "Info", MB_OK | MB_ICONHAND);
 			EndDialog(hwnd, IDOK);
 		}
 			break;
-		case IDCANCEL:MessageBox(hwnd, "Была нажата кнопка OТМЕНА", "Info", MB_OK | MB_ICONINFORMATION); EndDialog(hwnd, 0);
+		case IDCANCEL:MessageBox(hwnd, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° OРўРњР•РќРђ", "Info", MB_OK | MB_ICONINFORMATION); EndDialog(hwnd, 0);
 		}
 		break;
 	case WM_CLOSE:
