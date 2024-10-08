@@ -1,24 +1,28 @@
-﻿# include<Windows.h>
+﻿#include<Windows.h>
 
-CONST CHAR g_sz_WINDOW_CLASS[] = "Main Windows"
+//MDI - Multi Document Interface
+
+CONST CHAR g_sz_WINDOW_CLASS[] = "Main Window";	//Имя класса окна.
 
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-INT WINAPI WinMAIN(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
+INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	WNDCLASS wClass;
+	//1) Регистрация класса окна:
+	//1.1. Создать и проинициализировать структуру WNDCLASSEX
+	WNDCLASSEX wClass;
 	ZeroMemory(&wClass, sizeof(wClass));
+
 	wClass.style = NULL;
-	wClass.cbSize = sizeof(wClass);  // cb - count Byte
-	wClass.cbClsExtra = 0;
-	wClass.cbWndExtra = 0;
+	wClass.cbSize = sizeof(wClass);	//cb - Count Bytes
+	wClass.cbClsExtra = 0;	        //Class Extra Bytes
+	wClass.cbWndExtra = 0;	        //Window Extra Bytes
 
 	//Appearance:
 	wClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);	//Small Icon
 	wClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wClass.hbrBackground = (HBRUSH)COLOR_WINDOW;
-
 
 	//
 	wClass.hInstance = hInstance;
@@ -26,41 +30,45 @@ INT WINAPI WinMAIN(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wClass.lpszClassName = g_sz_WINDOW_CLASS;
 	wClass.lpszMenuName = NULL;
 
+	//	1.2 Вызвать функцию RegisterClassEx(...)
 	if (RegisterClassEx(&wClass) == NULL)
 	{
-		MessageBox(NULL, "Class registration failed", "ERROR", MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, "Class registration failed", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
+	//2) Создание окна
 	HWND hwnd = CreateWindowEx
-	{
-		NULL,
-		g_sz_WINDOW_CLASS,
-		g_sz_WINDOW_CLASS,
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		NULL,
-		NULL, / hMenu
+	(
+		NULL,	                       //Window ExStyle
+		g_sz_WINDOW_CLASS,	           //Window Class Name
+		g_sz_WINDOW_CLASS,	           //Window Title
+		WS_OVERLAPPEDWINDOW,           //Window Style
+		CW_USEDEFAULT, CW_USEDEFAULT,	//Coordinates
+		CW_USEDEFAULT, CW_USEDEFAULT,	//Window size
+		NULL,	//Parent
+		NULL,	//hMenu: Для главного окна это ResourceID нлавного меню,
+		        //для дочернего окна (кнопки и друние элементы) - 
+		//это ResourceID соответствующего элемента (кнопки, такстового пол, и т.д.)
+		//По этому RousourceID мы находим дочерний элемент окна при помощи функции GetDlgItem()
 		hInstance,
 		NULL
-
-	};
+	);
 	if (hwnd == NULL)
 	{
 		MessageBox(NULL, "Window creation failed", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
-	ShowWindow(hwnd, nCmdShow);
-	UpdateWindow(hwnd); //прорисовыввает окно
+	ShowWindow(hwnd, nCmdShow);	//Задает режим отображения окна (развернуто на весь экран, свернуто в окно, свернуто в панель задач)
+	UpdateWindow(hwnd);	//Прорисовывает окно
 
+	//3) Запуск цикла сообщений
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-
 	return msg.message;
 }
 
@@ -74,5 +82,8 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
+	case WM_CLOSE:DestroyWindow(hwnd); break;
+	default:	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
-};
+	return FALSE;
+}
