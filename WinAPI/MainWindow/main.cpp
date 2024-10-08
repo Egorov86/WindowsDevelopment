@@ -2,7 +2,7 @@
 
 //MDI - Multi Document Interface
 
-CONST CHAR g_sz_WINDOW_CLASS[] = "Main Window";	//Имя класса окна.
+CONST CHAR g_sz_WINDOW_CLASS[] = "Main Windows";	//Имя класса окна.
 
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
