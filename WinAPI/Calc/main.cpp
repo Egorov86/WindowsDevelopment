@@ -90,9 +90,10 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		for (int i = 6; i >= 0; i -= 3)
 		{
 			for (int j = 0; j < 3; j++)
-			{
+			{   
+				int count = 1;
 				CreateWindowEx(
-				    NULL, "Button", "0",
+					NULL, "Button", (LPCSTR)count++,
 				    WS_CHILD | WS_VISIBLE,
 					g_BUTTON_START_X + (g_BUTTON_SIZE+g_INTERVAL )* j, g_BUTTON_START_Y + (g_BUTTON_SIZE+g_INTERVAL) * (i / 3),
 					g_BUTTON_SIZE, g_BUTTON_SIZE, 
