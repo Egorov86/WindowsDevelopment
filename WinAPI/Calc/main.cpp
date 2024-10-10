@@ -1,13 +1,13 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include"resource.h"
 #include<string>
 #include<sstream>
 
-std::string ToString(int number)
+std::string ToString(int number) // РњРµС‚РѕРґ ToРЎРўР РРќР“
 {
-	std::stringstream ss;
-	ss << number;
-	return ss.str();
+	std::stringstream ss;   // РЎРѕР·РґР°СЋ РѕР±СЉРµРєС‚
+	ss << number;           // Р’СЃС‚Р°РІР»СЏСЋ Р·РЅР°С‡РµРЅРёРµ number РІ ss РѕРїРµСЂР°С‚РѕСЂРѕРј РІСЃС‚Р°РІРєР° <<
+	return ss.str();        // Р’РѕР·РІСЂР°С‰ СЃС‚СЂРѕРєСѓ СЃ РїРѕРјРѕС‰СЊСЋ РјРµС‚РѕРґР° str
 }
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Calc";
@@ -25,7 +25,7 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow) 
 {
-	//1  Регистр класса окна
+	//1  Р РµРіРёСЃС‚СЂ РєР»Р°СЃСЃР° РѕРєРЅР°
 	WNDCLASSEX wClass;
 	ZeroMemory(&wClass, sizeof(wClass));
 
@@ -34,7 +34,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wClass.cbWndExtra = 0;
 	wClass.cbClsExtra = 0;
 
-	// опред внеш вид
+	// РѕРїСЂРµРґ РІРЅРµС€ РІРёРґ
 	wClass.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
 	wClass.hIconSm = LoadIcon(hInstance, IDI_APPLICATION);
 	wClass.hCursor = LoadCursor(hInstance, IDC_ARROW);
@@ -51,7 +51,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		return 0;
 	}
 
-	//2  Создание окна
+	//2  РЎРѕР·РґР°РЅРёРµ РѕРєРЅР°
 	HWND hwnd  = CreateWindowEx
 	    (
 		    NULL,	                       //Window ExStyle
@@ -62,14 +62,14 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		    CW_USEDEFAULT, CW_USEDEFAULT,	//Position
 		    CW_USEDEFAULT, CW_USEDEFAULT,	//Window size
 		    NULL,	//Parent
-		    NULL,	//hMenu: Для главного окна это ResourceID нлавного меню,
+		    NULL,	//hMenu: Р”Р»СЏ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° СЌС‚Рѕ ResourceID РЅР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ,
 	        hInstance,
             NULL
          );
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
 
-	//3  Запуск цикла сообщений
+	//3  Р—Р°РїСѓСЃРє С†РёРєР»Р° СЃРѕРѕР±С‰РµРЅРёР№
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0) > 0)
 	{
@@ -110,7 +110,7 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					count = 7+j;
 				}
 				CreateWindowEx(
-					NULL, "Button", ToString(count).c_str(), // c_str() - преобразует в LPCSTR
+					NULL, "Button", ToString(count).c_str(), // c_str() - РїСЂРµРѕР±СЂР°Р·СѓРµС‚ РІ LPCSTR
 				    WS_CHILD | WS_VISIBLE,
 					g_BUTTON_START_X + (g_BUTTON_SIZE+g_INTERVAL )* j, g_BUTTON_START_Y + (g_BUTTON_SIZE+g_INTERVAL) * (i / 3),
 					g_BUTTON_SIZE, g_BUTTON_SIZE, 
