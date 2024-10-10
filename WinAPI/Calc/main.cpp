@@ -1,5 +1,14 @@
 #include<Windows.h>
 #include"resource.h"
+#include<string>
+#include<sstream>
+
+std::string ToString(int number)
+{
+	std::stringstream ss;
+	ss << number;
+	return ss.str();
+}
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Calc";
 
@@ -91,9 +100,17 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			for (int j = 0; j < 3; j++)
 			{   
-				int count = 1;
+				int count = 1+j;
+				if (i<=3)
+				{
+					count = 4 + j;
+				}
+				if (i<=0)
+				{
+					count = 7+j;
+				}
 				CreateWindowEx(
-					NULL, "Button", (LPCSTR)count++,
+					NULL, "Button", ToString(count).c_str(), // c_str() - преобразует в LPCSTR
 				    WS_CHILD | WS_VISIBLE,
 					g_BUTTON_START_X + (g_BUTTON_SIZE+g_INTERVAL )* j, g_BUTTON_START_Y + (g_BUTTON_SIZE+g_INTERVAL) * (i / 3),
 					g_BUTTON_SIZE, g_BUTTON_SIZE, 
