@@ -93,6 +93,22 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
+	case WM_SIZE:     //  Сообщение, которое отправляется окну, когда будет изменяться его размер
+	{
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		int width = rect.right - rect.left;
+		int height = rect.bottom - rect.top;
+		break;
+	}
+	case WM_MOVE:     //  Сообщение, которое отправляется окну, когда оно будет перемещаться
+	{
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		int x = rect.left;
+		int y = rect.top;
+		break;
+	}
 	case WM_CREATE:
 		CreateWindowEx
 		(
