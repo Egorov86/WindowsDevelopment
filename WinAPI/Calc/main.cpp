@@ -30,6 +30,16 @@ CONST INT g_CONTROL_BUTTONS_START_Y = g_BUTTON_START_Y;
 
 CONST CHAR g_OPERATIONS[] = "*/-+";
 
+//WNDCLASSEX wClass;
+//ZeroMemory(&wClass, sizeof(wClass));
+//
+//wClass.style = NULL;
+//wClass.cbSize = sizeof(wClass);	 //cb - Count Bytes
+//wClass.cbClsExtra = 0;	         //Class Extra Bytes
+//wClass.cbWndExtra = 0;	         //Window Extra Bytes
+//
+//wClass.hIcon = (HICON)LoadImage(hInstance, "ICO\\Calc.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+
 BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow) 
@@ -43,8 +53,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wClass.cbWndExtra = 0;
 	wClass.cbClsExtra = 0;
 
+
 	// опред внеш вид
-	wClass.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
+	wClass.hIcon = (HICON)LoadImage(hInstance, "ICO\\calc.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	//wClass.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
 	wClass.hIconSm = LoadIcon(hInstance, IDI_APPLICATION);
 	wClass.hCursor = LoadCursor(hInstance, IDC_ARROW);
 	wClass.hbrBackground = (HBRUSH)COLOR_WINDOW;
@@ -107,7 +119,6 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-
 		CHAR sz_digit[2]{};
 		for (int i = 6; i >= 0; i -= 3)
 		{

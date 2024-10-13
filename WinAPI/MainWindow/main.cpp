@@ -1,4 +1,5 @@
 ﻿#include<Windows.h>
+#include<cstdio>
 
 #define IDC_STATIC 1000   // 1 Создаём ResourseID для дочернего элемента
 #define IDC_EDIT   1002
@@ -7,6 +8,7 @@
 //MDI - Multi Document Interface
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Main Windows";	//Имя класса окна.
+CONST CHAR Information[] = "Main Window Размер: %ix%i, Позиция: X: %i Y: %i";
 
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -93,23 +95,8 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-	case WM_SIZE:     //  Сообщение, которое отправляется окну, когда будет изменяться его размер
-	{
-		RECT rect;
-		GetWindowRect(hwnd, &rect);
-		int width = rect.right - rect.left;
-		int height = rect.bottom - rect.top;
-		break;
-	}
-	case WM_MOVE:     //  Сообщение, которое отправляется окну, когда оно будет перемещаться
-	{
-		RECT rect;
-		GetWindowRect(hwnd, &rect);
-		int x = rect.left;
-		int y = rect.top;
-		break;
-	}
 	case WM_CREATE:
+	{
 		CreateWindowEx
 		(
 			NULL,
@@ -125,7 +112,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		);
 		CreateWindowEx(
 			NULL, "Edit", "",
-			WS_CHILD | WS_VISIBLE | WS_BORDER, 
+			WS_CHILD | WS_VISIBLE | WS_BORDER,
 			100, 30,
 			200, 20,
 			hwnd,
@@ -142,8 +129,31 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			(HMENU)IDC_BUTTON,
 			GetModuleHandle(NULL),
 			NULL);
+	}  	break;
+	case WM_SIZE:     //  Сообщение, которое отправляется окну, когда будет изменяться его размер
+	{
+		CHAR windowSize[256]{};
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		int width = rect.right - rect.left;
+		int height = rect.bottom - rect.top;
+		sprintf_s(windowSize, Information, height, width, rect.left, rect.top);
+		SetWindowText(hwnd, windowSize);
 		break;
+	}
+	case WM_MOVE:     //  Сообщение, которое отправляется окну, когда оно будет перемещаться
+	{
+		CHAR windowsMoving[256]{};
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		int x = rect.right - rect.left;;
+		int y = rect.bottom- rect.top;
+		sprintf_s(windowsMoving, Information, x, y, rect.left, rect.top );
+		SetWindowText(hwnd, windowsMoving);
+		break;
+	}
 	case WM_COMMAND:
+	{
 		switch (LOWORD(wParam))
 		{
 		case IDC_BUTTON:
@@ -159,7 +169,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 		}
-		break;
+	}break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 	case WM_CLOSE:DestroyWindow(hwnd); break;
