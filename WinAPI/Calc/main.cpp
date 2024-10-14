@@ -2,6 +2,8 @@
 #include"resource.h"
 #include<string.h>
 #include<sstream>
+#include<float.h>
+#include<cstdio>
 
 /*
 std::string ToString(int number) // Метод ToСТРИНГ
@@ -28,7 +30,7 @@ CONST INT g_OPERATION_START_Y = g_BUTTON_START_Y;
 CONST INT g_CONTROL_BUTTONS_START_X = g_START_X + (g_BUTTON_SIZE + g_INTERVAL) * 4;
 CONST INT g_CONTROL_BUTTONS_START_Y = g_BUTTON_START_Y;
 
-CONST CHAR g_OPERATIONS[] = "*/-+";
+CONST CHAR g_OPERATIONS[] = "+-*/";
 
 //WNDCLASSEX wClass;
 //ZeroMemory(&wClass, sizeof(wClass));
@@ -55,9 +57,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 
 	// опред внеш вид
-	wClass.hIcon = (HICON)LoadImage(hInstance, "ICO\\calc.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	//wClass.hIcon = (HICON)LoadImage(hInstance, "ICO\\calc.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
+	wClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+
 	//wClass.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
-	wClass.hIconSm = LoadIcon(hInstance, IDI_APPLICATION);
+	wClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wClass.hCursor = LoadCursor(hInstance, IDC_ARROW);
 	wClass.hbrBackground = (HBRUSH)COLOR_WINDOW;
 
@@ -104,6 +108,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	//static HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_DISPLAY);
+	static DOUBLE a=DBL_MIN, b;   // операнды
+	static INT operation;        // операция
+	static BOOL input;            // устанавливается при вводе числа
+	static BOOL operation_input;  // устанавливается при вводе операции
 	switch (uMsg)
 	{
 	case WM_CREATE:
@@ -176,7 +185,7 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			(
 				NULL, "Button", sz_operation,
 				WS_CHILD | WS_VISIBLE,
-				g_OPERATION_START_X, g_OPERATION_START_Y + (g_BUTTON_SIZE + g_INTERVAL) * i,
+				g_OPERATION_START_X, g_OPERATION_START_Y + (g_BUTTON_SIZE + g_INTERVAL) * (4-1-i),
 				g_BUTTON_SIZE, g_BUTTON_SIZE,
 				hwnd,
 				(HMENU)(IDC_BUTTON_PLUS + i),
@@ -227,11 +236,13 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		HWND hEditDisplay = GetDlgItem(hwnd, IDC_EDIT_DISPLAY);
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9)
 		{
+			if (input == FALSE && operation_input == TRUE)SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)"");
 			sz_digit[0] = LOWORD(wParam) - IDC_BUTTON_0 + 48;  //  '0' = 48 (ASCII)
 			SendMessage(hEditDisplay, WM_GETTEXT, SIZE, (LPARAM)sz_display);
 			if (sz_display[0] == '0' && sz_display[1] != '.')sz_display[0] = 0;
 			strcat(sz_display, sz_digit); // str(dst, src) выполняет конкатенацию строк.
 			SendMessage(hEditDisplay,WM_SETTEXT, 0, (LPARAM)sz_display );
+			input = TRUE;
 		}
 		if (LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
@@ -247,9 +258,37 @@ BOOL CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			else sz_display[strlen(sz_display) - 1] = 0;
 			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_display);
 		}
-		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)
+		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)  // полностью отчистить
 		{
+			a = b = DBL_MIN;
+			operation = 0;
+			input = operation_input = FALSE;
 			sz_display[0] = '0';
+			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_display);
+		}
+		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
+		{
+				SendMessage(hEditDisplay, WM_GETTEXT, SIZE, (LPARAM)sz_display);
+				if (a == DBL_MIN)a = strtod(sz_display, NULL);
+				else b = strtod(sz_display, NULL);
+				if(input)SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_EQUAL), 0);
+				operation = LOWORD(wParam);
+				input = FALSE;
+				operation_input = TRUE;
+		}
+		if (LOWORD(wParam) == IDC_BUTTON_EQUAL)
+		{
+			SendMessage(hEditDisplay, WM_GETTEXT, SIZE, (LPARAM)sz_display);
+			if(operation_input)b = strtod(sz_display, NULL);
+			switch (operation)
+			{
+			case IDC_BUTTON_PLUS:  a += b; break;
+			case IDC_BUTTON_MINUS: a -= b; break;
+			case IDC_BUTTON_ASTER: a *= b; break;
+			case IDC_BUTTON_SLASH: a /= b; break;
+			}
+			operation_input = FALSE;
+			sprintf(sz_display, "%g", a);
 			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_display);
 		}
 	}
