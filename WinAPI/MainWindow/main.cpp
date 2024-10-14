@@ -8,7 +8,7 @@
 //MDI - Multi Document Interface
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Main Windows";	//Имя класса окна.
-CONST CHAR Information[] = "Main Window Размер: %ix%i, Позиция: X: %i Y: %i";
+CONST CHAR Information[] = "Main Window Размер: %ix%i, Позиция: ось X: %i ось Y: %i";
 
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
