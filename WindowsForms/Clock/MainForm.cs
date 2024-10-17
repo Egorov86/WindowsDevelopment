@@ -17,44 +17,48 @@ namespace Clock
             InitializeComponent();
             this.TransparencyKey = Color.Empty;
         }
-
-        private void labeltime_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
-            labeltime.Text = DateTime.Now.ToString("HH:mm:ss tt");
+            labeltime.Text = DateTime.Now.ToString("hh:mm:ss tt");
             if(cbShowDate.Checked)
             {
                 labeltime.Text += $"\n{DateTime.Today.ToString("yyyy.MM.dd")}";
             }
             //notifyIconSystemTray.BalloonTipText = "Current time" + labeltime.Text;
         }
-        private void setVisibility(bool visible)
+        private void SetVisibility(bool visible)
         {
-            this.TransparencyKey = visible ? Color.Empty :this.BackColor;
-            this.FormBorderStyle = visible ? FormBorderStyle.Sizable: FormBorderStyle.None;
-            this.ShowInTaskbar = visible;
+            this.TransparencyKey = visible ? Color.Empty :this.BackColor; //обращение к объекту данной формы
+            this.FormBorderStyle = visible ? FormBorderStyle.Sizable: FormBorderStyle.None; //форма элемента SIZABLE скрыть
+            this.ShowInTaskbar = visible; //скрытие в панели задач
             cbShowDate.Visible = visible;
-            btnHideControls.Visible = visible;
-            labeltime.BackColor = visible ? Color.Empty : Color.Coral;
+            btnHideControls.Visible = visible; 
+            labeltime.BackColor = visible ? Color.Empty : Color.Coral; //изменение цвета
+            // taskkill /f /im clock.exe  (закрыть окно)
         }
         private void btnHideControls_Click(object sender, EventArgs e)
         {
-            setVisibility(false);
-            notifyIconSystemTray.ShowBalloonTip(1, "Важная инфа", "надо нажать два раза", ToolTipIcon.Error);
+            //string filename;
+            //if(FolderBrowserDialog.ReferenceEquals() == DialogResult.OK)
+            //Hide();
+            SetVisibility(false);
+            notifyIconSystemTray.BalloonTipText = "Обратите внимание что программа продолжит работу в фоновом режиме!";
+            notifyIconSystemTray.ShowBalloonTip(1000);
         }
 
         private void labeltime_DoubleClick(object sender, EventArgs e)
         {
-            setVisibility(true);
+            SetVisibility(true);
             
         }
         private void notifyIconSystemTray_MouseMove(object sender, MouseEventArgs e)
         {
-            notifyIconSystemTray.Text = "Current time:\n" + labeltime.Text;
+            notifyIconSystemTray.Text = "Current  time:\n" + labeltime.Text;
+        }
+
+        private void ShowContextMenu_RightClick(object sender, MouseEventArgs e)
+        {
+            this.contextMenuStrip1.Visible = Visible;
         }
     }
 }
