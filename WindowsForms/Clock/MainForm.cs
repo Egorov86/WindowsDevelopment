@@ -47,7 +47,7 @@ namespace Clock
             this.ShowInTaskbar = visible; //скрытие в панели задач
             cbShowDate.Visible = visible;
             btnHideControls.Visible = visible;
-            labeltime.BackColor = visible ? Color.Empty : Color.Coral; //изменение цвета
+            labeltime.BackColor = visible ? Color.Empty : backgroundColorDialog.Color ; //изменение цвета
             // taskkill /f /im clock.exe  (закрыть окно)
         }
         private void btnHideControls_Click(object sender, EventArgs e)
