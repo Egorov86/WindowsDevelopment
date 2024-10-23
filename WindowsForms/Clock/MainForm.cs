@@ -12,7 +12,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.IO;
 using System.Reflection;
-using System.Drawing;
+using System.Diagnostics;
+using System.Text;
 
 namespace Clock
 {
@@ -21,6 +22,7 @@ namespace Clock
         ColorDialog backgroundColorDialog; //можно было затащить из формы
         ColorDialog foregroundColorDialog;
         ChooseFont chooseFontDialog;
+        string fontName { get; set; }
         public MainForm()
         {
             InitializeComponent();
@@ -28,12 +30,12 @@ namespace Clock
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
             foregroundColorDialog = new ColorDialog();
+            LoadSettings();
 
             chooseFontDialog = new ChooseFont();
 
-            backgroundColorDialog.Color = Color.Black;
-            foregroundColorDialog.Color = Color.Blue;
-            labeltime.ForeColor = foregroundColorDialog.Color;
+            //backgroundColorDialog.Color = Color.Black;
+            //foregroundColorDialog.Color = Color.Blue;
             SetVisibility(false); // отображение только часов
             this.Location = new Point
                 (
@@ -50,6 +52,29 @@ namespace Clock
             //MessageBox.Show(path);
             Directory.SetCurrentDirectory($"{path}\\..\\..\\Fonts"); // переходим в каталог со шрифтами
             //MessageBox.Show(Directory.GetCurrentDirectory());
+        }
+        void LoadSettings()
+        {
+            StreamReader sr = new StreamReader("settings.txt");
+            List<string> settings = new List<string>();
+            while (!sr.EndOfStream)
+            {
+                settings.Add(sr.ReadLine());
+            }
+            sr.Close();
+            backgroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[0]));
+            foregroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[1]));
+            labeltime.ForeColor = foregroundColorDialog.Color;
+            labeltime.BackColor = backgroundColorDialog.Color;
+        }
+        void SaveSettings()
+        {
+            StreamWriter sw = new StreamWriter("settings.txt");
+            sw.WriteLine(backgroundColorDialog.Color.ToArgb()); //ToArgb() возвращает числовой код  цвета
+            sw.WriteLine(foregroundColorDialog.Color.ToArgb());
+            sw.WriteLine(labeltime.Font.Name);
+            sw.Close();
+            Process.Start("notepad","settings.txt");
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -153,11 +178,15 @@ namespace Clock
                 labeltime.Font = chooseFontDialog.ChosenFont;
             }
         }
-
+        private void labeltime_MouseEnter(object sender, EventArgs e)
+        {
+            contextMenuStrip.ForeColor = Color.Black;
+            labeltime.ForeColor = Color.Yellow;
+        }
         private void labeltime_MouseLeave(object sender, EventArgs e)
         {
-            contextMenuStrip.ForeColor = Color.Red;
-            labeltime.ForeColor = Color.Red;
+            contextMenuStrip.ForeColor = Color.Black;
+            labeltime.ForeColor = foregroundColorDialog.Color;
         }
         Point lastPoint;
         private void labeltime_MouseMove(object sender, MouseEventArgs e)
@@ -172,6 +201,11 @@ namespace Clock
         private void labeltime_MouseDown(object sender, MouseEventArgs e)
         {
             lastPoint = new Point(e.X, e.Y);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettings();
         }
     }
 }

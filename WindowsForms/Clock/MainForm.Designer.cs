@@ -66,6 +66,7 @@
             this.labeltime.Text = "Time";
             this.labeltime.DoubleClick += new System.EventHandler(this.labeltime_DoubleClick);
             this.labeltime.MouseDown += new System.Windows.Forms.MouseEventHandler(this.labeltime_MouseDown);
+            this.labeltime.MouseEnter += new System.EventHandler(this.labeltime_MouseEnter);
             this.labeltime.MouseLeave += new System.EventHandler(this.labeltime_MouseLeave);
             this.labeltime.MouseMove += new System.Windows.Forms.MouseEventHandler(this.labeltime_MouseMove);
             // 
@@ -232,6 +233,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Clock";
             this.TransparencyKey = System.Drawing.Color.White;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
