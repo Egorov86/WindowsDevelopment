@@ -1,3 +1,5 @@
--16776961
--65281
-Microsoft Sans Serif
+-32768
+-16711936
+youmurdererbb_reg.ttf
+True
+True
