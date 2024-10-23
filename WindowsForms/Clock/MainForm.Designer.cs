@@ -65,6 +65,9 @@
             this.labeltime.TabIndex = 0;
             this.labeltime.Text = "Time";
             this.labeltime.DoubleClick += new System.EventHandler(this.labeltime_DoubleClick);
+            this.labeltime.MouseDown += new System.Windows.Forms.MouseEventHandler(this.labeltime_MouseDown);
+            this.labeltime.MouseLeave += new System.EventHandler(this.labeltime_MouseLeave);
+            this.labeltime.MouseMove += new System.Windows.Forms.MouseEventHandler(this.labeltime_MouseMove);
             // 
             // contextMenuStrip
             // 
@@ -82,7 +85,7 @@
             this.toolStripSeparator2,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(239, 204);
+            this.contextMenuStrip.Size = new System.Drawing.Size(239, 182);
             // 
             // topmostToolStripMenuItem
             // 
