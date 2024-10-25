@@ -14,6 +14,8 @@ using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 using System.Text;
+using Microsoft.Win32;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Clock
 {
@@ -77,6 +79,10 @@ namespace Clock
             {
                 MessageBox.Show(ex.Message, "Load settings error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            Object run = rk.GetValue("Clock318");
+            if (run != null) loadOnWindowsStarttupToolStripMenuItem.Checked = true;
+            rk.Dispose();
         }
         void SaveSettings()
         {
@@ -219,6 +225,16 @@ namespace Clock
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettings();
+        }
+
+        private void loadOnWindowsStarttupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            RegistryKey rk =
+                Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if (loadOnWindowsStarttupToolStripMenuItem.Checked) rk.SetValue("clock318", Application.ExecutablePath);
+            else rk.DeleteValue("Clock318", false); //false - не бросать исключения если указанная запись отсутствует.
+            rk.Dispose(); // Освобождает ресурсы освобождаемые объектом.
+
         }
     }
 }

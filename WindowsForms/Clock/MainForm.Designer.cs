@@ -86,7 +86,7 @@
             this.toolStripSeparator2,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(239, 182);
+            this.contextMenuStrip.Size = new System.Drawing.Size(239, 204);
             // 
             // topmostToolStripMenuItem
             // 
@@ -159,9 +159,11 @@
             // 
             // loadOnWindowsStarttupToolStripMenuItem
             // 
+            this.loadOnWindowsStarttupToolStripMenuItem.CheckOnClick = true;
             this.loadOnWindowsStarttupToolStripMenuItem.Name = "loadOnWindowsStarttupToolStripMenuItem";
             this.loadOnWindowsStarttupToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.loadOnWindowsStarttupToolStripMenuItem.Text = "Load onWindows starttup";
+            this.loadOnWindowsStarttupToolStripMenuItem.CheckedChanged += new System.EventHandler(this.loadOnWindowsStarttupToolStripMenuItem_CheckedChanged);
             // 
             // toolStripSeparator2
             // 
