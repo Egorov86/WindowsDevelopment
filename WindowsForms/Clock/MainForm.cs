@@ -24,6 +24,7 @@ namespace Clock
         ColorDialog backgroundColorDialog; //можно было затащить из формы
         ColorDialog foregroundColorDialog;
         ChooseFont chooseFontDialog;
+        AlarmList alarmList;
         string FontFile { get; set; }
         public MainForm()
         {
@@ -35,6 +36,7 @@ namespace Clock
 
             chooseFontDialog = new ChooseFont();
             LoadSettings();
+            alarmList = new AlarmList();
 
             //backgroundColorDialog.Color = Color.Black;
             //foregroundColorDialog.Color = Color.Blue;
@@ -235,6 +237,11 @@ namespace Clock
             else rk.DeleteValue("Clock318", false); //false - не бросать исключения если указанная запись отсутствует.
             rk.Dispose(); // Освобождает ресурсы освобождаемые объектом.
 
+        }
+
+        private void alarmsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alarmList.ShowDialog(this);
         }
     }
 }
