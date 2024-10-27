@@ -247,10 +247,9 @@ namespace Clock
         {
             contextMenuStrip.ForeColor = Color.Black; backgroundColorDialog.Color = Color.Black;
             labeltime.ForeColor = Color.White; foregroundColorDialog.Color = Color.White;
-           // var defaultFont = new Font("Bloodlust3D", 12); // Укажите корректное имя шрифта и размер
+           // var defaultFont = new Font("Bloodlust3D", 12);
             //labeltime.Font = new Font("Bloodlust3D", 24);
             //chooseFontDialog.Font = new Font("Bloodlust3D", 24);
-            // Если необходимо, сохраните изменения в настройках
             //SaveSettings();
 
         }
