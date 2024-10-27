@@ -243,5 +243,16 @@ namespace Clock
         {
             alarmList.ShowDialog(this);
         }
+        private void restoreDefaultSettingsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            contextMenuStrip.ForeColor = Color.Black; backgroundColorDialog.Color = Color.Black;
+            labeltime.ForeColor = Color.White; foregroundColorDialog.Color = Color.White;
+           // var defaultFont = new Font("Bloodlust3D", 12); // Укажите корректное имя шрифта и размер
+            //labeltime.Font = new Font("Bloodlust3D", 24);
+            //chooseFontDialog.Font = new Font("Bloodlust3D", 24);
+            // Если необходимо, сохраните изменения в настройках
+            //SaveSettings();
+
+        }
     }
 }

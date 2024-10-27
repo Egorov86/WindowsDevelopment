@@ -1,5 +1,5 @@
--32768
--16711936
-Fluted Germanica.ttf
-True
-True
+-16777216
+-1
+Embossed Germanica.ttf
+False
+False

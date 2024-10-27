@@ -42,16 +42,18 @@
             this.backgraundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.loadOnWindowsStarttupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alarmsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.loadOnWindowsStarttupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.cbShowDate = new System.Windows.Forms.CheckBox();
             this.btnHideControls = new System.Windows.Forms.Button();
             this.notifyIconSystemTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.alarmsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restoreDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,9 +90,11 @@
             this.toolStripSeparator2,
             this.loadOnWindowsStarttupToolStripMenuItem,
             this.toolStripSeparator3,
+            this.restoreDefaultSettingsToolStripMenuItem,
+            this.toolStripSeparator6,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(239, 232);
+            this.contextMenuStrip.Size = new System.Drawing.Size(239, 260);
             // 
             // topmostToolStripMenuItem
             // 
@@ -161,6 +165,18 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
             // 
+            // alarmsToolStripMenuItem
+            // 
+            this.alarmsToolStripMenuItem.Name = "alarmsToolStripMenuItem";
+            this.alarmsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.alarmsToolStripMenuItem.Text = "Alarms";
+            this.alarmsToolStripMenuItem.Click += new System.EventHandler(this.alarmsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            // 
             // loadOnWindowsStarttupToolStripMenuItem
             // 
             this.loadOnWindowsStarttupToolStripMenuItem.CheckOnClick = true;
@@ -169,10 +185,10 @@
             this.loadOnWindowsStarttupToolStripMenuItem.Text = "Load onWindows starttup";
             this.loadOnWindowsStarttupToolStripMenuItem.CheckedChanged += new System.EventHandler(this.loadOnWindowsStarttupToolStripMenuItem_CheckedChanged);
             // 
-            // toolStripSeparator2
+            // toolStripSeparator3
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
             // 
             // closeToolStripMenuItem
             // 
@@ -222,17 +238,19 @@
             this.notifyIconSystemTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystemTray_MouseMove);
             this.notifyIconSystemTray.MouseMove += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystemTray_MouseMove);
             // 
-            // toolStripSeparator3
+            // restoreDefaultSettingsToolStripMenuItem
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
+            this.restoreDefaultSettingsToolStripMenuItem.CheckOnClick = true;
+            this.restoreDefaultSettingsToolStripMenuItem.Name = "restoreDefaultSettingsToolStripMenuItem";
+            this.restoreDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.restoreDefaultSettingsToolStripMenuItem.Text = "Restore default settings";
+            this.restoreDefaultSettingsToolStripMenuItem.CheckedChanged += new System.EventHandler(this.restoreDefaultSettingsToolStripMenuItem_CheckedChanged);
+   
             // 
-            // alarmsToolStripMenuItem
+            // toolStripSeparator6
             // 
-            this.alarmsToolStripMenuItem.Name = "alarmsToolStripMenuItem";
-            this.alarmsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.alarmsToolStripMenuItem.Text = "Alarms";
-            this.alarmsToolStripMenuItem.Click += new System.EventHandler(this.alarmsToolStripMenuItem_Click);
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
             // 
             // MainForm
             // 
@@ -282,6 +300,8 @@
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.ToolStripMenuItem alarmsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem restoreDefaultSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     }
 }
 
