@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Text;
 using Microsoft.Win32;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Runtime.InteropServices;
 
 namespace Clock
 {
@@ -29,6 +30,7 @@ namespace Clock
         public MainForm()
         {
             InitializeComponent();
+            AllocConsole();
             SetFontDirectory();
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
@@ -243,6 +245,8 @@ namespace Clock
         {
             alarmList.ShowDialog(this);
         }
+        [DllImport("kernel32.dll")]
+        static extern bool AllocConsole();
         private void restoreDefaultSettingsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             contextMenuStrip.ForeColor = Color.Black; backgroundColorDialog.Color = Color.Black;

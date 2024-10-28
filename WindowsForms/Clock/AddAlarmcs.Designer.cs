@@ -36,6 +36,7 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.dateTimePickerDate = new System.Windows.Forms.DateTimePicker();
             this.checkBoxFocusChar = new System.Windows.Forms.CheckBox();
+            this.openFileDialogSound = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // dateTimePickerTime
@@ -44,6 +45,7 @@
             this.dateTimePickerTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePickerTime.Location = new System.Drawing.Point(228, 35);
             this.dateTimePickerTime.Name = "dateTimePickerTime";
+            this.dateTimePickerTime.ShowUpDown = true;
             this.dateTimePickerTime.Size = new System.Drawing.Size(200, 44);
             this.dateTimePickerTime.TabIndex = 0;
             // 
@@ -76,6 +78,7 @@
             this.labelFilename.Size = new System.Drawing.Size(59, 15);
             this.labelFilename.TabIndex = 2;
             this.labelFilename.Text = "Filename";
+            this.labelFilename.TextChanged += new System.EventHandler(this.labelFilename_TextChanged);
             // 
             // buttonChooseFile
             // 
@@ -86,10 +89,13 @@
             this.buttonChooseFile.TabIndex = 3;
             this.buttonChooseFile.Text = "Выбрать файл";
             this.buttonChooseFile.UseVisualStyleBackColor = true;
+            this.buttonChooseFile.TextChanged += new System.EventHandler(this.labelFilenameTextChanged);
+            this.buttonChooseFile.Click += new System.EventHandler(this.buttonChooseFile_Click);
             // 
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOK.Enabled = false;
             this.buttonOK.Location = new System.Drawing.Point(272, 151);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
@@ -128,7 +134,10 @@
             this.checkBoxFocusChar.TabIndex = 5;
             this.checkBoxFocusChar.Text = "На конктретную дату";
             this.checkBoxFocusChar.UseVisualStyleBackColor = true;
-            this.checkBoxFocusChar.CheckedChanged += new System.EventHandler(this.checkBoxFocusChar_CheckedChanged);
+            // 
+            // openFileDialogSound
+            // 
+            this.openFileDialogSound.FileName = "openFileDialogSound";
             // 
             // AddAlarmcs
             // 
@@ -164,5 +173,6 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.DateTimePicker dateTimePickerDate;
         private System.Windows.Forms.CheckBox checkBoxFocusChar;
+        private System.Windows.Forms.OpenFileDialog openFileDialogSound;
     }
 }

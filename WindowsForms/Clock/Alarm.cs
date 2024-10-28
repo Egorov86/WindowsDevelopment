@@ -6,22 +6,35 @@ using System.Threading.Tasks;
 
 namespace Clock
 {
-    class Alarm
+    public class Alarm
     {
+        public static readonly string[] WeekDayNames = new string [7]{"Пн","Вт","Ср","Чт","Пт","Суб","Вс"};
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
-        public bool[] Weekdays{ get; private set; }
+        public bool[] Weekdays { get; private set; } = new bool[7];
         public string Filename { get; set; }
+
+        public Alarm()
+        {
+            Weekdays = new bool[7];
+        }
+        string WeekDaysToString()
+        {
+            string days = "";
+            for (int i = 0; i < Weekdays.Length; i++)
+            {
+                if (Weekdays[i])days += WeekDayNames[i];
+                Console.Write(Weekdays[i]+"\t");
+            }
+            return days;
+        }
         public override string ToString()
         {
             string result = "";
-            if (Date != null) result += Date;
-            result += $"{Time}, {Weekdays}, {Filename}";
+            if (Date != null && Date != DateTime.MinValue) result += $"{Date},";
+            result += $"{Time.TimeOfDay}, {WeekDaysToString()}, {Filename.Split('\\').Last()}";
             return result;
 
         }
-
-
-
     }
 }
