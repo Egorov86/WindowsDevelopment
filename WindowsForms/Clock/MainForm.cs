@@ -26,6 +26,7 @@ namespace Clock
         ColorDialog foregroundColorDialog;
         ChooseFont chooseFontDialog;
         AlarmList alarmList;
+        Alarm alarm;
         string FontFile { get; set; }
         public MainForm()
         {
@@ -49,6 +50,8 @@ namespace Clock
                      50
                 );
             this.Text += $" Location:{this.Location.X}x{this.Location.Y}";
+            alarm = new Alarm();
+
 
         }
         void SetFontDirectory()
@@ -99,6 +102,21 @@ namespace Clock
             sw.Close();
             Process.Start("notepad","settings.txt");
         }
+        void GetNextAlarm()
+        {
+            //Alarm[] alarms = new Alarm[alarmList.ListBoxAlarms.Items.Count];
+            //alarms.AddRange(alarmList.ListBoxAlarms)
+            //if(alarmList.ListBoxAlarms!=null)
+            //{
+                List<Alarm> alarms = new List<Alarm>();
+                foreach (Alarm item in alarmList.ListBoxAlarms.Items)
+                {
+                    alarms.Add(item);
+                }
+                alarm = alarms.Min();
+                Console.WriteLine(alarm);
+            //}
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             labeltime.Text = DateTime.Now.ToString("hh:mm:ss tt");
@@ -107,6 +125,7 @@ namespace Clock
                 labeltime.Text += $"\n{DateTime.Today.ToString("yyyy.MM.dd")}";
             }
             //notifyIconSystemTray.BalloonTipText = "Current time" + labeltime.Text;
+            GetNextAlarm(); // выведение каждую секунду
         }
         private void SetVisibility(bool visible)
         {

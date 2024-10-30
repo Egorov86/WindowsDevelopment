@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Clock
 {
-    public class Alarm
+    public class Alarm:IComparable
     {
         public static readonly string[] WeekDayNames = new string [7]{"Пн","Вт","Ср","Чт","Пт","Суб","Вс"};
         public DateTime Date { get; set; }
@@ -33,6 +35,7 @@ namespace Clock
                 if (Weekdays[i])days += WeekDayNames[i];
                 Console.Write(Weekdays[i]+"\t");
             }
+            Console.WriteLine();
             return days;
         }
         public override string ToString()
@@ -42,6 +45,11 @@ namespace Clock
             result += $"{Time.TimeOfDay}, {WeekDaysToString()}, {Filename.Split('\\').Last()}";
             return result;
 
+        }
+        public int CompareTo(object other)
+        {
+            return this.Time.CompareTo((other as Alarm).Time);
+            //Опретор "AS" преобразует значение слева в тип справа
         }
     }
 }
