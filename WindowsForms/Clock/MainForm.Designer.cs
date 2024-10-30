@@ -46,14 +46,14 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.loadOnWindowsStarttupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.restoreDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.cbShowDate = new System.Windows.Forms.CheckBox();
             this.btnHideControls = new System.Windows.Forms.Button();
             this.notifyIconSystemTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.restoreDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,6 +190,19 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
             // 
+            // restoreDefaultSettingsToolStripMenuItem
+            // 
+            this.restoreDefaultSettingsToolStripMenuItem.CheckOnClick = true;
+            this.restoreDefaultSettingsToolStripMenuItem.Name = "restoreDefaultSettingsToolStripMenuItem";
+            this.restoreDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.restoreDefaultSettingsToolStripMenuItem.Text = "Restore default settings";
+            this.restoreDefaultSettingsToolStripMenuItem.CheckedChanged += new System.EventHandler(this.restoreDefaultSettingsToolStripMenuItem_CheckedChanged);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
+            // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
@@ -237,20 +250,6 @@
             this.notifyIconSystemTray.DoubleClick += new System.EventHandler(this.notifyIconSystemTray_DoubleClick);
             this.notifyIconSystemTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystemTray_MouseMove);
             this.notifyIconSystemTray.MouseMove += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystemTray_MouseMove);
-            // 
-            // restoreDefaultSettingsToolStripMenuItem
-            // 
-            this.restoreDefaultSettingsToolStripMenuItem.CheckOnClick = true;
-            this.restoreDefaultSettingsToolStripMenuItem.Name = "restoreDefaultSettingsToolStripMenuItem";
-            this.restoreDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.restoreDefaultSettingsToolStripMenuItem.Text = "Restore default settings";
-            this.restoreDefaultSettingsToolStripMenuItem.CheckedChanged += new System.EventHandler(this.restoreDefaultSettingsToolStripMenuItem_CheckedChanged);
-   
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
             // 
             // MainForm
             // 

@@ -20,25 +20,41 @@ namespace Clock
             //labelFilename.SetBounds(labelFilename.Location.X, labelFilename.Location.Y, this.Width - 10, 25);
             labelFilename.MaximumSize = new Size(this.Width - 25, 75);
             openFileDialogSound.Filter = "MP-3 (*.mp3)|*.mp3|Flac (*.flac)|*.flac|All Audio|*.mp3;*.flac";
+            openFileDialogSound.FilterIndex = 3;
         }
+        public AddAlarmcs(Alarm alarm) : this()
+        {
+            Alarm = alarm;
+            InitWindowFromAlarm();
+        }
+        void InitWindowFromAlarm()
+        {
+            if (Alarm.Date != DateTime.MinValue) this.dateTimePickerDate.Value = Alarm.Date;
+            //this.dateTimePickerDate.Value = Alarm.Date;
+            this.dateTimePickerTime.Value = Alarm.Time;
+            this.labelFilename.Text = Alarm.Filename;
+            for(int i = 0; i<Alarm.Weekdays.Length;i++)
+            {
+                checkedListBoxWeek.SetItemChecked(i, Alarm.Weekdays[i]);
+                //Console.WriteLine(checkedListBoxWeek.CheckedItems.GetType());
+                //(checkedListBoxWeek.Items[i] as CheckBox).Checked = Alarm.Weekdays[i];
+            }
+        }
+
+
         void InitAlarm()
         {
             Alarm.Date = dateTimePickerDate.Enabled ? dateTimePickerDate.Value : DateTime.MinValue;
             Alarm.Time = dateTimePickerTime.Value;
             //Alarm.Time.Millisecond = 0;
             Alarm.Filename = labelFilename.Text;
+            for (int i = 0; i < Alarm.Weekdays.Length; i++) Alarm.Weekdays[i] = false;
             for (int i = 0; i < checkedListBoxWeek.CheckedIndices.Count; i++)
             {   //свойство "CheckedIndices" это коллекция которая содержит индексы выбранных галочек в сheckedListBox.
                 //Alarm.Weekdays[i] = (checkedListBoxWeek.Items[i] as CheckBox).Checked;
                 Alarm.Weekdays[checkedListBoxWeek.CheckedIndices[i]] = true;
                 Console.Write(checkedListBoxWeek.CheckedIndices[i] + "\t");
-            }
-            if (Alarm.Filename == "Filename:")
-            {
-                MessageBox.Show("Выберите файл", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            
+            }   
             Console.WriteLine();
 
         }
