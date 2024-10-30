@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.Win32;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Runtime.InteropServices;
+using System.Security.Claims;
 
 namespace Clock
 {
@@ -113,7 +114,8 @@ namespace Clock
                 {
                     alarms.Add(item);
                 }
-                alarm = alarms.Min();
+            if (alarms.Min() != null) alarm = alarms.Min();
+            
                 Console.WriteLine(alarm);
             //}
         }
@@ -126,6 +128,12 @@ namespace Clock
             }
             //notifyIconSystemTray.BalloonTipText = "Current time" + labeltime.Text;
             GetNextAlarm(); // выведение каждую секунду
+            if (DateTime.Now.Hour == alarm.Time.Hour && 
+                DateTime.Now.Minute == alarm.Time.Minute &&
+                DateTime.Now.Second ==  alarm.Time.Second)
+            {
+                MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         private void SetVisibility(bool visible)
         {

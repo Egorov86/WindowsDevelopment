@@ -14,12 +14,19 @@ namespace Clock
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
         public bool[] Weekdays { get; private set; } = new bool[7];
-        public string Filename { get; set; }
+        public string Filename { get; set; } = "";
 
         public Alarm()
         {
             Weekdays = new bool[7];
         }
+        //public Alarm(Alarm other):this()
+        //{
+        //    this.Date = other.Date;
+        //    this.Time = other.Time;
+        //    this.Filename = other.Filename;
+        //    for (int i = 0; i < Weekdays.Length; i++) this.Weekdays[i] = other.Weekdays[i];
+        //}
         string WeekDaysToString()
         {
             string days = "";
