@@ -18,6 +18,9 @@ using Microsoft.Win32;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
+using System.Globalization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using System.Reflection.Emit;
 
 namespace Clock
 {
@@ -128,11 +131,17 @@ namespace Clock
             }
             //notifyIconSystemTray.BalloonTipText = "Current time" + labeltime.Text;
             GetNextAlarm(); // выведение каждую секунду
-            if (DateTime.Now.Hour == alarm.Time.Hour && 
-                DateTime.Now.Minute == alarm.Time.Minute &&
-                DateTime.Now.Second ==  alarm.Time.Second)
+            //if (alarm.Weekdays == ;
             {
-                MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (
+                    DateTime.Now.Hour == alarm.Time.Hour &&
+                    DateTime.Now.Minute == alarm.Time.Minute &&
+                    DateTime.Now.Second == alarm.Time.Second)
+                {
+                    MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show(alarm.Filename = String.Format("Вы выбрали: {0}"));
+                    //MessageBox.Show(DateTime.Now.ToString(" "), "пн", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
         private void SetVisibility(bool visible)
