@@ -269,7 +269,7 @@
             this.axWindowsMediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
             this.axWindowsMediaPlayer.Size = new System.Drawing.Size(233, 45);
             this.axWindowsMediaPlayer.TabIndex = 3;
-            this
+            //this.axWindowsMediaPlayer.EndOfStream;
             // 
             // MainForm
             // 
@@ -295,6 +295,11 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void AxWindowsMediaPlayer_EndOfStream(object sender, AxWMPLib._WMPOCXEvents_EndOfStreamEvent e)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

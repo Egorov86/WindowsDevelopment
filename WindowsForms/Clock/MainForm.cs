@@ -22,6 +22,7 @@ using System.Globalization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using System.Reflection.Emit;
 using MediaPlayer;
+using AxWMPLib;
 
 namespace Clock
 {
@@ -313,6 +314,10 @@ namespace Clock
         {
             alarmList.ShowDialog(this);
             GetNextAlarm();
+        }
+        void SetPlayerInvisible(object sender, _WMPOCXEvents_AudioLanguageChangeEventHandler e)
+        {
+            axWindowsMediaPlayer.Visible = false;
         }
         [DllImport("kernel32.dll")]
         static extern bool AllocConsole();
