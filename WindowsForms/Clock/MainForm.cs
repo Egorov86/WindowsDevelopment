@@ -21,6 +21,7 @@ using System.Security.Claims;
 using System.Globalization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using System.Reflection.Emit;
+using MediaPlayer;
 
 namespace Clock
 {
@@ -55,7 +56,9 @@ namespace Clock
                 );
             this.Text += $" Location:{this.Location.X}x{this.Location.Y}";
             alarm = new Alarm();
+            GetNextAlarm();
 
+            //this.axWindowsMediaPlayer1.Visible = false;
 
         }
         void SetFontDirectory()
@@ -115,7 +118,7 @@ namespace Clock
                 List<Alarm> alarms = new List<Alarm>();
                 foreach (Alarm item in alarmList.ListBoxAlarms.Items)
                 {
-                    if (item.Time < DateTime.Now) alarms.Add(item);
+                    if (item.Time > DateTime.Now) alarms.Add(item);
                 }
             //if (alarms.Min() != null) alarm = alarms.Min();
                 if (alarms.Min() != null) alarm = alarms.Min();
@@ -142,21 +145,35 @@ namespace Clock
             //if (alarm.Weekdays == ;
             //int weekday = (int)DateTime.Now.DayOfWeek;
             //weekday = weekday == 0 ? 7 : weekday - 1;
-            if (
-                    alarm.Weekdays[((int)DateTime.Now.DayOfWeek == 0?6:(int)DateTime.Now.DayOfWeek-1)] == true &&
+            if      (
+                    alarm.Weekdays[((int)DateTime.Now.DayOfWeek == 0 ? 6 : (int)DateTime.Now.DayOfWeek - 1)] == true &&
                     /*DateTime.Now.DayOfWeek == DayOfWeek.Sunday &&*/
                     DateTime.Now.Hour == alarm.Time.Hour &&
                     DateTime.Now.Minute == alarm.Time.Minute &&
                     DateTime.Now.Second == alarm.Time.Second
-               )
+                     )
                 {
-                    MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Console.WriteLine("ALARM:-----" + alarm.ToString());
+                    //MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Console.WriteLine("ALARM:----" + alarm.ToString());
                     //MessageBox.Show(alarm.Filename = String.Format("Вы выбрали: {0}"));
                     //MessageBox.Show(DateTime.Now.ToString(" "), "пн", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                    PlayAlarm();
+                    GetNextAlarm();
+                 }
+            if (DateTime.Now.Second==0)
+            {
                 GetNextAlarm();
+                Console.WriteLine("Minute");
             }
+               
+        }
+        void PlayAlarm()
+        {
+            axWindowsMediaPlayer.URL = alarm.Filename;
+            axWindowsMediaPlayer.settings.volume = 100;
+            axWindowsMediaPlayer.Ctlcontrols.play();
+            axWindowsMediaPlayer.Visible = true;
+        }
         
         private void SetVisibility(bool visible)
         {
@@ -166,6 +183,7 @@ namespace Clock
             cbShowDate.Visible = visible;
             btnHideControls.Visible = visible;
             labeltime.BackColor = visible ? Color.Empty : backgroundColorDialog.Color ; //изменение цвета
+            axWindowsMediaPlayer.Visible = false; //ctrl+r+r заменить 
             // taskkill /f /im clock.exe  (закрыть окно)
         }
         private void btnHideControls_Click(object sender, EventArgs e)
@@ -294,6 +312,7 @@ namespace Clock
         private void alarmsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             alarmList.ShowDialog(this);
+            GetNextAlarm();
         }
         [DllImport("kernel32.dll")]
         static extern bool AllocConsole();
