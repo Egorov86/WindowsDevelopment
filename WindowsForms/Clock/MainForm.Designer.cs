@@ -54,6 +54,7 @@
             this.btnHideControls = new System.Windows.Forms.Button();
             this.notifyIconSystemTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.showWeekdayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,6 +83,7 @@
             this.showControlsToolStripMenuItem,
             this.toolStripSeparator4,
             this.showDataToolStripMenuItem,
+            this.showWeekdayToolStripMenuItem,
             this.toolStripSeparator5,
             this.colorsToolStripMenuItem,
             this.fonsToolStripMenuItem,
@@ -94,7 +96,7 @@
             this.toolStripSeparator6,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(239, 260);
+            this.contextMenuStrip.Size = new System.Drawing.Size(239, 282);
             // 
             // topmostToolStripMenuItem
             // 
@@ -251,6 +253,12 @@
             this.notifyIconSystemTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystemTray_MouseMove);
             this.notifyIconSystemTray.MouseMove += new System.Windows.Forms.MouseEventHandler(this.notifyIconSystemTray_MouseMove);
             // 
+            // showWeekdayToolStripMenuItem
+            // 
+            this.showWeekdayToolStripMenuItem.Name = "showWeekdayToolStripMenuItem";
+            this.showWeekdayToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.showWeekdayToolStripMenuItem.Text = "Show weekday";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,6 +309,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem restoreDefaultSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem showWeekdayToolStripMenuItem;
     }
 }
 

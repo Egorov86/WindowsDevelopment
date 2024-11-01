@@ -111,16 +111,20 @@ namespace Clock
             //Alarm[] alarms = new Alarm[alarmList.ListBoxAlarms.Items.Count];
             //alarms.AddRange(alarmList.ListBoxAlarms)
             //if(alarmList.ListBoxAlarms!=null)
-            //{
+            {
                 List<Alarm> alarms = new List<Alarm>();
                 foreach (Alarm item in alarmList.ListBoxAlarms.Items)
                 {
-                    alarms.Add(item);
+                    if (item.Time < DateTime.Now) alarms.Add(item);
                 }
-            if (alarms.Min() != null) alarm = alarms.Min();
-            
+            //if (alarms.Min() != null) alarm = alarms.Min();
+                if (alarms.Min() != null) alarm = alarms.Min();
+                    /*if(DateTime.Now =new Dat)
+                    alarmList.ListBoxAlarms.Items.Clear();
+                    intervals.Add(item.Time - DateTime.Now.TimeOfDay); */
+                //}
                 Console.WriteLine(alarm);
-            //}
+            }
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -129,21 +133,31 @@ namespace Clock
             {
                 labeltime.Text += $"\n{DateTime.Today.ToString("yyyy.MM.dd")}";
             }
-            //notifyIconSystemTray.BalloonTipText = "Current time" + labeltime.Text;
-            GetNextAlarm(); // выведение каждую секунду
-            //if (alarm.Weekdays == ;
+            if (showWeekdayToolStripMenuItem.Checked)
             {
-                if (
+                labeltime.Text += $"\n{DateTime.Today.DayOfWeek}";
+            }
+            //notifyIconSystemTray.BalloonTipText = "Current time" + labeltime.Text;
+            //GetNextAlarm(); // выведение каждую секунду
+            //if (alarm.Weekdays == ;
+            //int weekday = (int)DateTime.Now.DayOfWeek;
+            //weekday = weekday == 0 ? 7 : weekday - 1;
+            if (
+                    alarm.Weekdays[((int)DateTime.Now.DayOfWeek == 0?6:(int)DateTime.Now.DayOfWeek-1)] == true &&
+                    /*DateTime.Now.DayOfWeek == DayOfWeek.Sunday &&*/
                     DateTime.Now.Hour == alarm.Time.Hour &&
                     DateTime.Now.Minute == alarm.Time.Minute &&
-                    DateTime.Now.Second == alarm.Time.Second)
+                    DateTime.Now.Second == alarm.Time.Second
+               )
                 {
                     MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Console.WriteLine("ALARM:-----" + alarm.ToString());
                     //MessageBox.Show(alarm.Filename = String.Format("Вы выбрали: {0}"));
                     //MessageBox.Show(DateTime.Now.ToString(" "), "пн", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                GetNextAlarm();
             }
-        }
+        
         private void SetVisibility(bool visible)
         {
             this.TransparencyKey = visible ? Color.Empty : this.BackColor; //обращение к объекту данной формы

@@ -21,11 +21,14 @@ namespace Clock
             labelFilename.MaximumSize = new Size(this.Width - 25, 75);
             openFileDialogSound.Filter = "MP-3 (*.mp3)|*.mp3|Flac (*.flac)|*.flac|All Audio|*.mp3;*.flac";
             openFileDialogSound.FilterIndex = 3;
+            for (int i = 0; i < checkedListBoxWeek.Items.Count; i++)
+                checkedListBoxWeek.SetItemChecked(i, true);
         }
         public AddAlarmcs(Alarm alarm) : this()
         {
             Alarm = alarm;
             InitWindowFromAlarm();
+            
         }
         void InitWindowFromAlarm()
         {
