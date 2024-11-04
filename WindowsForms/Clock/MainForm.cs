@@ -33,6 +33,7 @@ namespace Clock
         ChooseFont chooseFontDialog;
         AlarmList alarmList;
         Alarm alarm;
+        //AxWindowsMediaPlayer axWindowsMediaPlayer1; //переменная скрытия для плеера 
         string FontFile { get; set; }
         public MainForm()
         {
@@ -50,16 +51,16 @@ namespace Clock
             //backgroundColorDialog.Color = Color.Black;
             //foregroundColorDialog.Color = Color.Blue;
             SetVisibility(false); // отображение только часов
-            this.Location = new Point
+            this.Location = new Point   // Локация появления часов
                 (
                      System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width,
-                     50
-                );
+                     50  
+                );   // this.Width - ширина формы (по X), 50-по координате У
             this.Text += $" Location:{this.Location.X}x{this.Location.Y}";
             alarm = new Alarm();
             GetNextAlarm();
 
-            //this.axWindowsMediaPlayer1.Visible = false;
+            //axWindowsMediaPlayer1.playState.CompareTo += AxWindowsMediaPlayer1_PlayStateChange;
 
         }
         void SetFontDirectory()
@@ -89,6 +90,7 @@ namespace Clock
                 labeltime.Font = chooseFontDialog.SetFontFile(FontFile);
                 labeltime.ForeColor = foregroundColorDialog.Color;
                 labeltime.BackColor = backgroundColorDialog.Color;
+                
             }
             catch (Exception ex)
             {
@@ -99,14 +101,15 @@ namespace Clock
             if (run != null) loadOnWindowsStarttupToolStripMenuItem.Checked = true;
             rk.Dispose();
         }
-        void SaveSettings()
+        void SaveSettings() //сохраняет настройки
         {
             StreamWriter sw = new StreamWriter("settings.txt");
             sw.WriteLine(backgroundColorDialog.Color.ToArgb()); //ToArgb() возвращает числовой код  цвета
-            sw.WriteLine(foregroundColorDialog.Color.ToArgb());
+            sw.WriteLine(foregroundColorDialog.Color.ToArgb()); //rgb - red,green,blue, a - альфаканал(канал прозрачности)
             sw.WriteLine(chooseFontDialog.FontFile.Split('\\').Last());
             sw.WriteLine(topmostToolStripMenuItem.Checked);
             sw.WriteLine(showDataToolStripMenuItem.Checked);
+            sw.WriteLine(alarmsToolStripMenuItem.Checked);
             sw.Close();
             Process.Start("notepad","settings.txt");
         }
@@ -195,7 +198,7 @@ namespace Clock
             //Hide();
             //SetVisibility(false);
             //notifyIconSystemTray.BalloonTipText = "Обратите внимание что программа продолжит работу в фоновом режиме!";
-            notifyIconSystemTray.ShowBalloonTip(3, "Alert!", "Для того чтобы вернуть", ToolTipIcon.Info);
+            notifyIconSystemTray.ShowBalloonTip(3, "Alert!", "Для того чтобы вернуть", ToolTipIcon.Info);  //обработка галочки на скрытие элементов
         }
 
         private void labeltime_DoubleClick(object sender, EventArgs e)
@@ -230,7 +233,7 @@ namespace Clock
 
         private void cbShowData_CheckedChanged(object sender, EventArgs e)
         {
-            showDataToolStripMenuItem.Checked = cbShowDate.Checked; //
+            showDataToolStripMenuItem.Checked = cbShowDate.Checked; // 
         }
 
         private void showDataToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -321,6 +324,12 @@ namespace Clock
         }
         [DllImport("kernel32.dll")]
         static extern bool AllocConsole();
+
+        /*private void AxWindowsMediaPlayer1_PlayStateChange(int newState)
+        {
+            if (newState == (int)WMPLib.WMPPlayState.wmppsStopped) { axWindowsMediaPlayer.Visible = false; }
+        }*/
+           
         private void restoreDefaultSettingsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             contextMenuStrip.ForeColor = Color.Black; backgroundColorDialog.Color = Color.Black;

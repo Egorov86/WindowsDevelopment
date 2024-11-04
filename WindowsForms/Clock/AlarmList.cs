@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Clock;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,5 +51,15 @@ namespace Clock
                 //this.Refresh();
             }
         }
+        private const string AlarmFilePath = "alarms.txt"; //путь для сохранения будильника
+        private void LoadAlarms()
+        {
+            if (File.Exists(AlarmFilePath))
+            {
+                using (StreamReader reader = new StreamReader(AlarmFilePath));
+            } 
+            
+        }
+        
     }
 }

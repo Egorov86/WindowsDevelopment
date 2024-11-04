@@ -1,5 +1,5 @@
 -16777216
 -1
-Embossed Germanica.ttf
+bloodlustleft.ttf
 False
-False
+True
