@@ -52,14 +52,14 @@ namespace Clock
             }
         }
         private const string AlarmFilePath = "alarms.txt"; //путь для сохранения будильника
-        private void LoadAlarms()
+        /*private void LoadAlarms()
         {
             if (File.Exists(AlarmFilePath))
             {
                 using (StreamReader reader = new StreamReader(AlarmFilePath));
             } 
             
-        }
+        }*/
         
     }
 }
