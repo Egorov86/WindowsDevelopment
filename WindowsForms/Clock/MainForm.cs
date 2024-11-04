@@ -24,6 +24,7 @@ using System.Reflection.Emit;
 using MediaPlayer;
 using AxWMPLib;
 
+
 namespace Clock
 {
     public partial class MainForm : Form
@@ -43,10 +44,11 @@ namespace Clock
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
             foregroundColorDialog = new ColorDialog();
-
+            
             chooseFontDialog = new ChooseFont();
             LoadSettings();
             alarmList = new AlarmList();
+            //LoadAlarms();
 
             //backgroundColorDialog.Color = Color.Black;
             //foregroundColorDialog.Color = Color.Blue;
@@ -58,8 +60,9 @@ namespace Clock
                 );   // this.Width - ширина формы (по X), 50-по координате У
             this.Text += $" Location:{this.Location.X}x{this.Location.Y}";
             alarm = new Alarm();
+            
             GetNextAlarm();
-
+            //SaveAlarms();
             //axWindowsMediaPlayer1.playState.CompareTo += AxWindowsMediaPlayer1_PlayStateChange;
 
         }
@@ -91,6 +94,8 @@ namespace Clock
                 labeltime.ForeColor = foregroundColorDialog.Color;
                 labeltime.BackColor = backgroundColorDialog.Color;
                 
+
+
             }
             catch (Exception ex)
             {
@@ -110,6 +115,7 @@ namespace Clock
             sw.WriteLine(topmostToolStripMenuItem.Checked);
             sw.WriteLine(showDataToolStripMenuItem.Checked);
             sw.WriteLine(alarmsToolStripMenuItem.Checked);
+
             sw.Close();
             Process.Start("notepad","settings.txt");
         }
