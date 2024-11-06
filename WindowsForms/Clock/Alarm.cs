@@ -20,6 +20,26 @@ namespace Clock
         {
             Weekdays = new bool[7];
         }
+        public Alarm(string alarm_string)
+        {
+            string[] values = alarm_string.Split(',');
+            Date = new DateTime(Convert.ToInt64(values[0]));
+            Time = new DateTime(Convert.ToInt64(values[0]));
+            Weekdays = WeekDaysFromString(values[2]);
+            Filename = values[3];
+        }
+        bool[] WeekDaysFromString(string week_string)
+        {
+            bool[] weekdays = new bool[7];
+            if(week_string.Contains("Пн")) weekdays[0] = true;
+            if(week_string.Contains("Вт")) weekdays[1] = true;
+            if(week_string.Contains("Ср")) weekdays[2] = true;
+            if(week_string.Contains("Чт")) weekdays[3] = true;
+            if(week_string.Contains("Пт")) weekdays[4] = true;
+            if(week_string.Contains("Суб")) weekdays[5] = true;
+            if(week_string.Contains("Вс")) weekdays[6] = true;
+            return weekdays;
+        }
         //public Alarm(Alarm other):this()
         //{
         //    this.Date = other.Date;
@@ -52,6 +72,16 @@ namespace Clock
             result += $"{Time.TimeOfDay}, {WeekDaysToString()}, {Filename.Split('\\').Last()}";
             return result;
 
+        }
+        public string ToFileString()  //чтобы сгенерировать 
+        {
+            string result = "";
+            //if(Date == DateTime.MinValue)result+=Date
+            result += $"{Date.Ticks},";
+            result += $"{Time.Ticks},";
+            result += $"{WeekDaysToString()},";
+            result += $"{Filename}";
+            return result;
         }
         public int CompareTo(object other)
         {

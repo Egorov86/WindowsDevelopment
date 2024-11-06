@@ -156,6 +156,7 @@ namespace Clock
             //int weekday = (int)DateTime.Now.DayOfWeek;
             //weekday = weekday == 0 ? 7 : weekday - 1;
             if      (
+                    alarm !=null &&
                     alarm.Weekdays[((int)DateTime.Now.DayOfWeek == 0 ? 6 : (int)DateTime.Now.DayOfWeek - 1)] == true &&
                     /*DateTime.Now.DayOfWeek == DayOfWeek.Sunday &&*/
                     DateTime.Now.Hour == alarm.Time.Hour &&
@@ -307,6 +308,7 @@ namespace Clock
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettings();
+            alarmList.SaveAlarmsToFile("alarms.csv");
         }
 
         private void loadOnWindowsStarttupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)

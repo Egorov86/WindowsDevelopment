@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.IO;
+using System.Diagnostics;
 
 namespace Clock
 {
@@ -24,7 +26,7 @@ namespace Clock
         public AlarmList()
         {
             InitializeComponent();
-            LoadAlarms();
+            LoadAlarmsToFile("alarms.csv");
         }
         
 
@@ -35,7 +37,7 @@ namespace Clock
             {
                 listBoxAlarm.Items.Add(addAlarmcs.Alarm);
             }
-            SaveAlarms(); // Сохраняем будильники после добавления нового
+            //SaveAlarmsToFile(); // Сохраняем будильники после добавления нового
         }
 
         /*private void listBoxAlarm_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -52,13 +54,13 @@ namespace Clock
             {
                 listBoxAlarm.SelectedItem = addAlarmcs.Alarm;
                 listBoxAlarm.Items[listBoxAlarm.SelectedIndex] = listBoxAlarm.Items[listBoxAlarm.SelectedIndex];
-                SaveAlarms();
+                //SaveAlarmsToFile();
                 //this.Refresh();
             }
         }
         //private const string AlarmFilePath = "settings.txt"; //путь для сохранения будильника
-        private void LoadAlarms()
-        {
+        
+        /*{
             if (!File.Exists("alarms.txt"))
             {
                 MessageBox.Show("Файл будильников не найден. Будет создан новый.");
@@ -74,18 +76,38 @@ namespace Clock
                     }
             }
             catch { }
-        }
-        private void SaveAlarms()
+        }*/
+        public void SaveAlarmsToFile(string filename)
         {
-            StreamWriter sw = new StreamWriter("alarms.txt");
-            sw.WriteLine(AlarmList.ActiveForm);
+            StreamWriter sw = new StreamWriter(filename);          
+            foreach (Alarm alarm in listBoxAlarm.Items)
+            {
+                sw.WriteLine(alarm.ToFileString());
+            }
             sw.Close(); 
            // writer.WriteLine("alarm.Time;alarm.IsActive");
            //sw.Close();
             //Process.Start("notepad", "alarm.txt");
-            Process.Start("notepad","alarms.txt");
+            Process.Start("notepad", filename);
 
         }
-
+        public void LoadAlarmsToFile(string filename)
+        {
+            try
+            {
+                StreamReader sr = new StreamReader(filename);
+                while (!sr.EndOfStream)
+                {
+                    string alarm = sr.ReadLine();
+                    listBoxAlarm.Items.Add(new Alarm(alarm));
+                }
+                sr.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Alarm warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
+        }
     }
 }
