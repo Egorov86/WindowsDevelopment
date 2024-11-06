@@ -328,7 +328,12 @@ namespace Clock
         }
         void SetPlayerInvisible(object sender, _WMPOCXEvents_AudioLanguageChangeEventHandler e)
         {
+            if(axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
             axWindowsMediaPlayer.Visible = false;
+        }
+        void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            axWindowsMediaPlayer.Visible = false;    
         }
         [DllImport("kernel32.dll")]
         static extern bool AllocConsole();
