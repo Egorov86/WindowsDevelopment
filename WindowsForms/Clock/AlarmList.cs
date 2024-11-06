@@ -109,5 +109,10 @@ namespace Clock
             }
             
         }
+
+        private void buttonDeleteAlarm_Click(object sender, EventArgs e) //кнопка удалить на будильнике
+        {
+            listBoxAlarm.Items.Remove(listBoxAlarm.SelectedItem);
+        }
     }
 }

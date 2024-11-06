@@ -180,10 +180,30 @@ namespace Clock
         }
         void PlayAlarm()
         {
-            axWindowsMediaPlayer.URL = alarm.Filename;
-            axWindowsMediaPlayer.settings.volume = 100;
-            axWindowsMediaPlayer.Ctlcontrols.play();
-            axWindowsMediaPlayer.Visible = true;
+            //try
+            //{
+            //string filename = File.Exists(alarm.Filename) ? alarm.Filename : "C:\\Users\\Пользователь\\source\\repos\\WindowsDevelopment\\WindowsForms\\Clock\\Sound";
+            axWindowsMediaPlayer.URL = alarm.Filename;//File.Exists(alarm.Filename)? alarm.Filename: DEFAULT_ALARM_FILE_NAME;// ? alarm.Filename: "..\\Sound\\Король и Шут - Лесник.flac";
+            //Console.WriteLine(File.Exists(alarm.Filename) ? "File Exists" : "File not found");
+            //if (!File.Exists(alarm.Filename))
+            //{
+            //    Console.WriteLine("Error: File not found");
+            //    axWindowsMediaPlayer.URL = "C:\\Users\\Пользователь\\source\\repos\\WindowsDevelopment\\WindowsForms\\Clock\\Sound";
+            //}
+                axWindowsMediaPlayer.settings.volume = 100;
+                axWindowsMediaPlayer.Visible = true;
+                axWindowsMediaPlayer.Ctlcontrols.play();
+                Console.WriteLine($"PlayAlarm:\t{Directory.GetCurrentDirectory()}");
+            //}
+            /*catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Alarm file not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                axWindowsMediaPlayer.URL = alarm.Filename = "Sound\\Король и Шут - Лесник.mp3";
+                axWindowsMediaPlayer.settings.volume = 100;
+                axWindowsMediaPlayer.Visible = true;
+                axWindowsMediaPlayer.Ctlcontrols.play();
+            }*/
+            
         }
         
         private void SetVisibility(bool visible)

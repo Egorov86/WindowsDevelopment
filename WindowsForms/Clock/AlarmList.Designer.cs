@@ -42,7 +42,6 @@
             this.listBoxAlarm.Size = new System.Drawing.Size(270, 147);
             this.listBoxAlarm.TabIndex = 0;
             this.listBoxAlarm.DoubleClick += new System.EventHandler(this.listBoxAlarm_DoubleClick);
-            //this.listBoxAlarm.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxAlarm_MouseDoubleClick);
             // 
             // buttonAddAlarm
             // 
@@ -62,6 +61,7 @@
             this.buttonDeleteAlarm.TabIndex = 1;
             this.buttonDeleteAlarm.Text = "Удалить";
             this.buttonDeleteAlarm.UseVisualStyleBackColor = true;
+            this.buttonDeleteAlarm.Click += new System.EventHandler(this.buttonDeleteAlarm_Click);
             // 
             // AlarmList
             // 
