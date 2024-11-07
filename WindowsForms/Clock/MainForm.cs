@@ -23,7 +23,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using System.Reflection.Emit;
 using MediaPlayer;
 using AxWMPLib;
-
+using System.Diagnostics.Eventing.Reader;
 
 namespace Clock
 {
@@ -158,27 +158,25 @@ namespace Clock
         }
         void PlayAlarm()
         {
-            //try
-            //{
-            //string filename = File.Exists(alarm.Filename) ? alarm.Filename : "C:\\Users\\Пользователь\\source\\repos\\WindowsDevelopment\\WindowsForms\\Clock\\Sound";
-            axWindowsMediaPlayer.URL = alarm.Filename;//File.Exists(alarm.Filename)? alarm.Filename: DEFAULT_ALARM_FILE_NAME;// ? alarm.Filename: "..\\Sound\\Король и Шут - Лесник.flac";  
+            if (File.Exists(alarm.Filename))
+            {
+                axWindowsMediaPlayer.URL = alarm.Filename;
+            }
+            else
+            {
+                PlayDefaultAlarmSound();
+                return;
+            }
+            //axWindowsMediaPlayer.URL = File.Exists(alarm.Filename) ? alarm.Filename : PlayDefaultAlarmSound();
+            //File.Exists(alarm.Filename)? alarm.Filename: DEFAULT_ALARM_FILE_NAME;// ? alarm.Filename: "..\\Sound\\Король и Шут - Лесник.flac";  
             axWindowsMediaPlayer.settings.volume = 100;
             axWindowsMediaPlayer.Visible = true;
             axWindowsMediaPlayer.Ctlcontrols.play();
-            PlayDefaultAlarmSound();
             //Console.WriteLine($"PlayAlarm:\t{Directory.GetCurrentDirectory()}");
-            /*}
-            catch
-            {
-                //MessageBox.Show(ex.Message, "Alarm file not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                axWindowsMediaPlayer.URL = alarm.Filename = "Sound\\Король и Шут - Лесник.mp3";
-                axWindowsMediaPlayer.settings.volume = 100;
-                axWindowsMediaPlayer.Visible = true;
-                axWindowsMediaPlayer.Ctlcontrols.play();
-            }*/
+              // вызов метода воспр по умолx
             
         }
-        private void PlayDefaultAlarmSound()
+        private void PlayDefaultAlarmSound() // метод для воспр мелодии по умолчанию
         {
             string soundFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sound\\Король и Шут - Лесник.mp3");
             if (File.Exists(soundFilePath))
