@@ -13,7 +13,7 @@ namespace Clock
         public static readonly string[] WeekDayNames = new string [7]{"Пн","Вт","Ср","Чт","Пт","Суб","Вс"};
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
-        public bool[] Weekdays { get; private set; } = new bool[7];
+        public bool[] Weekdays { get; private set; }
         public string Filename { get; set; } = "";
 
         public Alarm()
@@ -24,7 +24,7 @@ namespace Clock
         {
             string[] values = alarm_string.Split(',');
             Date = new DateTime(Convert.ToInt64(values[0]));
-            Time = new DateTime(Convert.ToInt64(values[0]));
+            Time = new DateTime(Convert.ToInt64(values[1]));
             Weekdays = WeekDaysFromString(values[2]);
             Filename = values[3];
         }
@@ -40,29 +40,15 @@ namespace Clock
             if(week_string.Contains("Вс")) weekdays[6] = true;
             return weekdays;
         }
-        //public Alarm(Alarm other):this()
-        //{
-        //    this.Date = other.Date;
-        //    this.Time = other.Time;
-        //    this.Filename = other.Filename;
-        //    for (int i = 0; i < Weekdays.Length; i++) this.Weekdays[i] = other.Weekdays[i];
-        //}
         string WeekDaysToString()
         {
             string days = "";
-            //bool present = false;
-            //for (int i = 0; i < Weekdays.Length; i++)
-            //{
-            //    present = Weekdays[i];
-            //    break;
-            //}
-            //if (!present) return days;
             for (int i = 0; i < Weekdays.Length; i++)
             {
                 if (Weekdays[i])days += WeekDayNames[i];
-                Console.Write(Weekdays[i]+"\t");
+                //Console.Write(Weekdays[i]+"\t");
             }
-            Console.WriteLine();
+            //Console.WriteLine();
             return days;
         }
         public override string ToString()

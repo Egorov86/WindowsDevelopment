@@ -34,7 +34,6 @@ namespace Clock
         ChooseFont chooseFontDialog;
         AlarmList alarmList;
         Alarm alarm;
-        //AxWindowsMediaPlayer axWindowsMediaPlayer1; //переменная скрытия для плеера 
         string FontFile { get; set; }
         public MainForm()
         {
@@ -48,19 +47,16 @@ namespace Clock
             chooseFontDialog = new ChooseFont();
             LoadSettings();
             alarmList = new AlarmList();
-            //LoadAlarms();
-
-            //backgroundColorDialog.Color = Color.Black;
-            //foregroundColorDialog.Color = Color.Blue;
+            
             SetVisibility(false); // отображение только часов
             this.Location = new Point   // Локация появления часов
                 (
                      System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width,
                      50  
                 );   // this.Width - ширина формы (по X), 50-по координате У
-            this.Text += $" Location:{this.Location.X}x{this.Location.Y}";
-            alarm = new Alarm();
+            this.Text += $" Location: {this.Location.X}x{this.Location.Y}";
             
+            alarm = new Alarm();
             GetNextAlarm();
             //SaveAlarms();
             //axWindowsMediaPlayer1.playState.CompareTo += AxWindowsMediaPlayer1_PlayStateChange;
@@ -77,30 +73,21 @@ namespace Clock
         void LoadSettings()
         {
             StreamReader sr = new StreamReader("settings.txt");
-            try
+            List<string> settings = new List<string>();
+            while (!sr.EndOfStream)
             {
-                List<string> settings = new List<string>();
-                while (!sr.EndOfStream)
-                {
-                    settings.Add(sr.ReadLine());
-                }
-                sr.Close();
-                backgroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[0]));
-                foregroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[1]));
-                FontFile = settings.ToArray()[2];
-                topmostToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[3]);
-                showDataToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[4]);
-                labeltime.Font = chooseFontDialog.SetFontFile(FontFile);
-                labeltime.ForeColor = foregroundColorDialog.Color;
-                labeltime.BackColor = backgroundColorDialog.Color;
-                
-
-
+                settings.Add(sr.ReadLine());
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Load settings error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            sr.Close();
+            backgroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[0]));
+            foregroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[1]));
+            FontFile = settings.ToArray()[2];
+            topmostToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[3]);
+            showDataToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[4]);
+            labeltime.Font = chooseFontDialog.SetFontFile(FontFile);
+            labeltime.ForeColor = foregroundColorDialog.Color;
+            labeltime.BackColor = backgroundColorDialog.Color;
+               
             RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             Object run = rk.GetValue("Clock318");
             if (run != null) loadOnWindowsStarttupToolStripMenuItem.Checked = true;
@@ -121,23 +108,16 @@ namespace Clock
         }
         void GetNextAlarm()
         {
-            //Alarm[] alarms = new Alarm[alarmList.ListBoxAlarms.Items.Count];
-            //alarms.AddRange(alarmList.ListBoxAlarms)
-            //if(alarmList.ListBoxAlarms!=null)
+            List<Alarm> alarms = new List<Alarm>();
+            foreach (Alarm item in alarmList.ListBoxAlarms.Items)
             {
-                List<Alarm> alarms = new List<Alarm>();
-                foreach (Alarm item in alarmList.ListBoxAlarms.Items)
-                {
-                    if (item.Time > DateTime.Now) alarms.Add(item);
-                }
-            //if (alarms.Min() != null) alarm = alarms.Min();
-                if (alarms.Min() != null) alarm = alarms.Min();
-                    /*if(DateTime.Now =new Dat)
-                    alarmList.ListBoxAlarms.Items.Clear();
-                    intervals.Add(item.Time - DateTime.Now.TimeOfDay); */
-                //}
-                Console.WriteLine(alarm);
+                if (item.Time > DateTime.Now) alarms.Add(item);
             }
+            if (alarms.Min() != null) alarm = alarms.Min();
+                /*if(DateTime.Now =new Dat)
+                alarmList.ListBoxAlarms.Items.Clear();
+                intervals.Add(item.Time - DateTime.Now.TimeOfDay); */
+            Console.WriteLine(alarm);
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -155,7 +135,7 @@ namespace Clock
             //if (alarm.Weekdays == ;
             //int weekday = (int)DateTime.Now.DayOfWeek;
             //weekday = weekday == 0 ? 7 : weekday - 1;
-            if      (
+            if(
                     alarm !=null &&
                     alarm.Weekdays[((int)DateTime.Now.DayOfWeek == 0 ? 6 : (int)DateTime.Now.DayOfWeek - 1)] == true &&
                     /*DateTime.Now.DayOfWeek == DayOfWeek.Sunday &&*/
@@ -165,9 +145,7 @@ namespace Clock
                      )
                 {
                     //MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Console.WriteLine("ALARM:----" + alarm.ToString());
-                    //MessageBox.Show(alarm.Filename = String.Format("Вы выбрали: {0}"));
-                    //MessageBox.Show(DateTime.Now.ToString(" "), "пн", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Console.WriteLine("ALARM:----" + alarm.ToString());                   
                     PlayAlarm();
                     GetNextAlarm();
                  }
@@ -183,21 +161,16 @@ namespace Clock
             //try
             //{
             //string filename = File.Exists(alarm.Filename) ? alarm.Filename : "C:\\Users\\Пользователь\\source\\repos\\WindowsDevelopment\\WindowsForms\\Clock\\Sound";
-            axWindowsMediaPlayer.URL = alarm.Filename;//File.Exists(alarm.Filename)? alarm.Filename: DEFAULT_ALARM_FILE_NAME;// ? alarm.Filename: "..\\Sound\\Король и Шут - Лесник.flac";
-            //Console.WriteLine(File.Exists(alarm.Filename) ? "File Exists" : "File not found");
-            //if (!File.Exists(alarm.Filename))
-            //{
-            //    Console.WriteLine("Error: File not found");
-            //    axWindowsMediaPlayer.URL = "C:\\Users\\Пользователь\\source\\repos\\WindowsDevelopment\\WindowsForms\\Clock\\Sound";
-            //}
-                axWindowsMediaPlayer.settings.volume = 100;
-                axWindowsMediaPlayer.Visible = true;
-                axWindowsMediaPlayer.Ctlcontrols.play();
-                Console.WriteLine($"PlayAlarm:\t{Directory.GetCurrentDirectory()}");
-            //}
-            /*catch(Exception ex)
+            axWindowsMediaPlayer.URL = alarm.Filename;//File.Exists(alarm.Filename)? alarm.Filename: DEFAULT_ALARM_FILE_NAME;// ? alarm.Filename: "..\\Sound\\Король и Шут - Лесник.flac";  
+            axWindowsMediaPlayer.settings.volume = 100;
+            axWindowsMediaPlayer.Visible = true;
+            axWindowsMediaPlayer.Ctlcontrols.play();
+            PlayDefaultAlarmSound();
+            //Console.WriteLine($"PlayAlarm:\t{Directory.GetCurrentDirectory()}");
+            /*}
+            catch
             {
-                MessageBox.Show(ex.Message, "Alarm file not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show(ex.Message, "Alarm file not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 axWindowsMediaPlayer.URL = alarm.Filename = "Sound\\Король и Шут - Лесник.mp3";
                 axWindowsMediaPlayer.settings.volume = 100;
                 axWindowsMediaPlayer.Visible = true;
@@ -205,7 +178,20 @@ namespace Clock
             }*/
             
         }
-        
+        private void PlayDefaultAlarmSound()
+        {
+            string soundFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sound\\Король и Шут - Лесник.mp3");
+            if (File.Exists(soundFilePath))
+            {
+                axWindowsMediaPlayer.URL = soundFilePath;
+                axWindowsMediaPlayer.Ctlcontrols.play();
+                MessageBox.Show("Выбранный трек не найден, звучит мелодия по умолчанию: Король и Шут - Лесник.mp3");
+            }
+            else
+
+                MessageBox.Show("Файл мелодии не найден: " + soundFilePath);
+        }
+            
         private void SetVisibility(bool visible)
         {
             this.TransparencyKey = visible ? Color.Empty : this.BackColor; //обращение к объекту данной формы
@@ -215,32 +201,25 @@ namespace Clock
             btnHideControls.Visible = visible;
             labeltime.BackColor = visible ? Color.Empty : backgroundColorDialog.Color ; //изменение цвета
             axWindowsMediaPlayer.Visible = false; //ctrl+r+r заменить 
-            // taskkill /f /im clock.exe  (закрыть окно)
         }
         private void btnHideControls_Click(object sender, EventArgs e)
         {
             showControlsToolStripMenuItem.Checked = false;
-            //string filename;
-            //if(FolderBrowserDialog.ReferenceEquals() == DialogResult.OK)
-            //Hide();
-            //SetVisibility(false);
-            //notifyIconSystemTray.BalloonTipText = "Обратите внимание что программа продолжит работу в фоновом режиме!";
-            notifyIconSystemTray.ShowBalloonTip(3, "Alert!", "Для того чтобы вернуть", ToolTipIcon.Info);  //обработка галочки на скрытие элементов
+            notifyIconSystemTray.ShowBalloonTip(3, "Alert!", "Для того чтобы вернуть как было, нужно ткнуть 2 раза мышкой по часам, или по этой иконке", ToolTipIcon.Info);  //обработка галочки на скрытие элементов
         }
-
         private void labeltime_DoubleClick(object sender, EventArgs e)
         {
-            showControlsToolStripMenuItem.Checked = false;
+            showControlsToolStripMenuItem.Checked = true;
 
         }
         private void notifyIconSystemTray_MouseMove(object sender, MouseEventArgs e)
         {
-            notifyIconSystemTray.Text = "Current  time:\n" + labeltime.Text;
+            notifyIconSystemTray.Text = "Current time:\n" + labeltime.Text;
         }
 
         private void ShowContextMenu_RightClick(object sender, MouseEventArgs e)
         {
-            this.contextMenuStrip.Visible = Visible;
+            this.contextMenuStrip.Visible = true;
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -257,17 +236,14 @@ namespace Clock
             SetVisibility(((ToolStripMenuItem)sender).Checked);
             //MessageBox.Show("Show controls toolstrip menu");
         }
-
-        private void cbShowData_CheckedChanged(object sender, EventArgs e)
-        {
-            showDataToolStripMenuItem.Checked = cbShowDate.Checked; // 
-        }
-
         private void showDataToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             cbShowDate.Checked = showDataToolStripMenuItem.Checked;
         }
-
+        private void cbShowData_CheckedChanged(object sender, EventArgs e)
+        {
+            showDataToolStripMenuItem.Checked = cbShowDate.Checked; // 
+        }
         private void notifyIconSystemTray_DoubleClick(object sender, EventArgs e)
         {
             if (!this.TopMost)
@@ -335,7 +311,7 @@ namespace Clock
         {
             RegistryKey rk =
                 Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (loadOnWindowsStarttupToolStripMenuItem.Checked) rk.SetValue("clock318", Application.ExecutablePath);
+            if (loadOnWindowsStarttupToolStripMenuItem.Checked) rk.SetValue("Clock318", Application.ExecutablePath);
             else rk.DeleteValue("Clock318", false); //false - не бросать исключения если указанная запись отсутствует.
             rk.Dispose(); // Освобождает ресурсы освобождаемые объектом.
 
