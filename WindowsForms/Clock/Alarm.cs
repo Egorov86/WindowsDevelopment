@@ -71,7 +71,8 @@ namespace Clock
         }
         public int CompareTo(object other)
         {
-            return this.Time.CompareTo((other as Alarm).Time);
+            return this.Time.TimeOfDay.CompareTo((other as Alarm).Time.TimeOfDay);
+            //return this.Time.CompareTo((other as Alarm).Time);
             //Опретор "AS" преобразует значение слева в тип справа
         }
     }

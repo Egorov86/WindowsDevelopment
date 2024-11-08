@@ -57,7 +57,7 @@ namespace Clock
             this.Text += $" Location: {this.Location.X}x{this.Location.Y}";
             
             alarm = new Alarm();
-            GetNextAlarm();
+            GetNextAlarm();     //F9+F5
             //SaveAlarms();
             //axWindowsMediaPlayer1.playState.CompareTo += AxWindowsMediaPlayer1_PlayStateChange;
 
@@ -111,7 +111,8 @@ namespace Clock
             List<Alarm> alarms = new List<Alarm>();
             foreach (Alarm item in alarmList.ListBoxAlarms.Items)
             {
-                if (item.Time > DateTime.Now) alarms.Add(item);
+                if (item.Time.TimeOfDay > DateTime.Now.TimeOfDay) 
+                    alarms.Add(item);
             }
             if (alarms.Min() != null) alarm = alarms.Min();
                 /*if(DateTime.Now =new Dat)
@@ -158,14 +159,14 @@ namespace Clock
         }
         void PlayAlarm()
         {
-            if (File.Exists(alarm.Filename))
+            if (File.Exists(alarm.Filename))        // если файл существует то играем его.
             {
-                axWindowsMediaPlayer.URL = alarm.Filename;
+                axWindowsMediaPlayer.URL = alarm.Filename;  
             }
             else
             {
-                PlayDefaultAlarmSound();
-                return;
+                PlayDefaultAlarmSound(); // вызов метода воспр по умолx
+                return;                  // выход сразу иначе будут выполняться нижние строчки
             }
             //axWindowsMediaPlayer.URL = File.Exists(alarm.Filename) ? alarm.Filename : PlayDefaultAlarmSound();
             //File.Exists(alarm.Filename)? alarm.Filename: DEFAULT_ALARM_FILE_NAME;// ? alarm.Filename: "..\\Sound\\Король и Шут - Лесник.flac";  
@@ -173,7 +174,7 @@ namespace Clock
             axWindowsMediaPlayer.Visible = true;
             axWindowsMediaPlayer.Ctlcontrols.play();
             //Console.WriteLine($"PlayAlarm:\t{Directory.GetCurrentDirectory()}");
-              // вызов метода воспр по умолx
+              
             
         }
         private void PlayDefaultAlarmSound() // метод для воспр мелодии по умолчанию
